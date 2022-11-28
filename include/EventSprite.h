@@ -13,9 +13,9 @@ namespace jengine {
 
         virtual void mouseUp(const SDL_Event &event) {};
 
-        virtual void KeyDown(const SDL_Event &event) {};
+        virtual void keyDown(const SDL_Event &event) {};
 
-        virtual void KeyUp(const SDL_Event &event) {};
+        virtual void keyUp(const SDL_Event &event) {};
 
     protected:
         EventSprite(int x, int y, int w, int h);

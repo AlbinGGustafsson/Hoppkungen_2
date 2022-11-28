@@ -2,6 +2,9 @@
 #include "System.h"
 #include <SDL2/SDL.h>
 #include "EventSprite.h"
+#include "Player.h"
+#include "Terrain.h"
+#include <iostream>
 
 namespace jengine {
 
@@ -12,6 +15,7 @@ namespace jengine {
     void GameEngine::remove(Sprite *s) {
         removed.push_back(s);
     }
+
 
     void GameEngine::run() {
         Uint32 tickInterval = 1000 / FPS;
@@ -79,6 +83,41 @@ namespace jengine {
                 }
             }
             removed.clear();
+
+
+            //Vi hade en bugg att den körde p->changeYVelocity(1); så många Terrains vi har i sprites.
+            //just nu har vi en temporär lösningen som bevisade att detta var problemet.
+            //men vi måste hitta en lösning på riktigt.
+
+            int counter = 0;
+
+            //player collision
+            for (Sprite *s: sprites) {
+                if (Player *p = dynamic_cast<Player *>(s)) {
+                    for (Sprite *sp: sprites) {
+                        if (Terrain *t = dynamic_cast<Terrain *>(sp)) {
+                            if (SDL_HasIntersection(&p->getRect(), &t->getRect())) {
+                                if ((p->getYPosition() + p->getRect().h) <= (t->getYPosition() + 15)) {
+                                    //std::cout << "py + h: " << (p->getYPosition() + p->getRect().h) << " ty + 16 " << (t->getYPosition() + 16) << std::endl;
+                                    p->setYCollision(true);
+                                    p->resetYVelocity();
+                                    break;
+                                }
+                            }
+                            if (p->getYVelocity() < 15) {
+                                counter++;
+                                std::cout << counter << sprites.size() << std::endl;
+                                if (counter % sprites.size() - 2 == 0){
+                                    p->changeYVelocity(1);
+                                }
+
+                            }
+                            p->setYCollision(false);
+
+                        }
+                    }
+                }
+            }
 
 
             for (Sprite *s: sprites) {

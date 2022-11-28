@@ -2,6 +2,7 @@
 #define GAMEENGINE_H
 #include <vector>
 #include "Sprite.h"
+#include "Player.h"
 
 
 namespace jengine {
