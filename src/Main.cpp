@@ -90,6 +90,7 @@ int main(int argc, char** argv){
     Player* player = Player::getInstance(250, 0, 100, 100);
     Terrain* t1 = Terrain::getInstance(250, 1100, 200, 50, 3);
     Terrain* t2 = Terrain::getInstance(380, 900, 200, 50, 3);
+    Terrain* t3 = Terrain::getInstance(500, 1100, 200, 50, 3);
 //    Terrain* t3 = Terrain::getInstance(570, 700, 200, 50, 3);
 //    Terrain* t4 = Terrain::getInstance(700, 550, 130, 50, 2);
 //    Terrain* t5 = Terrain::getInstance(570, 400, 70, 50, 1);
@@ -115,6 +116,7 @@ int main(int argc, char** argv){
     ses.add(player);
     ses.add(t1);
     ses.add(t2);
+    ses.add(t3);
 //    ses.add(t3);
 //    ses.add(t4);
 //    ses.add(t5);

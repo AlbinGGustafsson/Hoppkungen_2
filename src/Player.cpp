@@ -78,12 +78,12 @@ namespace jengine {
 
                 break;
             case SDLK_LEFT:
-                rect.x -= 50;
+                rect.x -= 30;
                 currentTx = leftTx;
 
                 break;
             case SDLK_RIGHT:
-                rect.x += 50;
+                rect.x += 30;
                 currentTx = rightTx;
                 break;
         }
