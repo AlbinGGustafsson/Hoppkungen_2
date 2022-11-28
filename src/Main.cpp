@@ -4,6 +4,9 @@
 #include "Button.h"
 #include "GameEngine.h"
 #include <string>
+#include "Player.h"
+#include "Terrain.h"
+#include "Background.h"
 
 #include <cstdlib>
 

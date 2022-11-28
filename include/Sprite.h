@@ -19,9 +19,9 @@ public:
 
 protected:
     Sprite(int x, int y, int w, int h);
+    SDL_Rect rect;
 
 private:
-    SDL_Rect rect;
 
     //vid tilldelning och kopiering kan vi få slicing. (objekt som är olika stora tilldelas varandra)
     //förbjud kopiering
