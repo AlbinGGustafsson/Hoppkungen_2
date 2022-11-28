@@ -5,8 +5,7 @@
 
 namespace jengine{
 
-System::System()
-{
+System::System(){
     SDL_Init(SDL_INIT_EVERYTHING);
     window = SDL_CreateWindow("Jengine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1200, 1200, 0);
     renderer = SDL_CreateRenderer(window, -1, 0);
@@ -16,8 +15,7 @@ System::System()
 
 }
 
-System::~System()
-{
+System::~System(){
     SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);
     TTF_CloseFont(font);

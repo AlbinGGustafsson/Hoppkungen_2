@@ -52,7 +52,7 @@ namespace jengine {
                     case SDL_KEYDOWN: {
                         for (Sprite *s: sprites) {
                             if (auto e = dynamic_cast<EventSprite *>(s)) {
-                                e->KeyDown(event);
+                                e->keyDown(event);
                             }
                         }
                         break;
@@ -60,7 +60,7 @@ namespace jengine {
                     case SDL_KEYUP: {
                         for (Sprite *s: sprites) {
                             if (auto e = dynamic_cast<EventSprite *>(s)) {
-                                e->KeyUp(event);
+                                e->keyUp(event);
                             }
                         }
                         break;
