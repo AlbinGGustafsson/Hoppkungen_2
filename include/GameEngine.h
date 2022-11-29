@@ -12,6 +12,9 @@ public:
     void add(Sprite* s);
     void remove(Sprite* s);
     void run();
+
+    void setLevel(std::vector<Sprite*> level);
+
     ~GameEngine();
 private:
     static const int FPS = 60;

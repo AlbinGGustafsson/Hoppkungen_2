@@ -39,7 +39,7 @@ namespace jengine {
 
     protected:
         Player(int x, int y, int w, int h);
-    private:
+
 
         //InAirImage
         SDL_Texture* airTx;
@@ -61,6 +61,8 @@ namespace jengine {
 
         bool yCollision;
         bool xCollision;
+    private:
+
 
     };
 

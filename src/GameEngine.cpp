@@ -186,5 +186,10 @@ namespace jengine {
 
     }
 
+    void GameEngine::setLevel(std::vector<Sprite *> level) {
+        sprites = level;
+
+    }
+
 }
 
