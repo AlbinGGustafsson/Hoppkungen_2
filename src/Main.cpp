@@ -203,6 +203,9 @@ int main(int argc, char** argv){
 
     cout << "after run" << endl;
 
+
+    levels.clear();
+
     delete player;
     delete t0;
     delete t1;
