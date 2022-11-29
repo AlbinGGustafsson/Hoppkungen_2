@@ -114,7 +114,7 @@ namespace jengine {
                     if (verticalCounter == 0){
                         verticalCounter+=2;
                         std::cout << "vc: " << verticalCounter <<  std::endl;
-                    }else if (verticalCounter < 20 && verticalCounter > -20){
+                    }else if (verticalCounter < 10 && verticalCounter > -10){
                         verticalCounter+=0.5;
                         std::cout << "vc: " << verticalCounter <<  std::endl;
                     }else{

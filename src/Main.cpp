@@ -8,6 +8,7 @@
 #include "Background.h"
 
 #include <cstdlib>
+#include <iostream>
 
 using namespace jengine;
 using namespace std;
@@ -15,8 +16,6 @@ using namespace std;
 int value = 0;
 GameEngine ses;
 std::vector<std::vector<Sprite*>> levels;
-std::vector<Sprite*> level1;
-std::vector<Sprite*> level2;
 
 class incButton: public Button{
 public:
@@ -138,6 +137,10 @@ public:
 int main(int argc, char** argv){
 //    Label* lbl = Label::getInstance(400, 100, 200, 70, "0");
 
+
+    std::vector<Sprite*> level1;
+    std::vector<Sprite*> level2;
+
     levels.push_back(level1);
     levels.push_back(level2);
 
@@ -164,8 +167,6 @@ int main(int argc, char** argv){
     levels[1].push_back(t4);
     levels[1].push_back(player);
 
-
-
     //Terrain* t2 = Terrain::getInstance(250, 1100, 200, 50, 3);
 
 //    TickLabel* labelTest = new TickLabel();
@@ -175,15 +176,12 @@ int main(int argc, char** argv){
 //    Button* b3 = new randomButton(lbl);
 //    auto* b4 = new RemoveButton(labelTest);
 
-
 //    ses.add(lbl);
 //    ses.add(b1);
 //    ses.add(b2);
 //    ses.add(b3);
 //    ses.add(labelTest);
 //    ses.add(b4);
-
-
 
 //    ses.add(bg);
 //    ses.add(player);
@@ -194,9 +192,6 @@ int main(int argc, char** argv){
 //    ses.add(t4);
 //    ses.add(t5);
 
-
-
-
 //    ses.add(t3);
 //    ses.add(t4);
 //    ses.add(t5);
@@ -205,6 +200,8 @@ int main(int argc, char** argv){
 
     ses.run();
 
+
+    cout << "after run" << endl;
 
     delete player;
     delete t0;
