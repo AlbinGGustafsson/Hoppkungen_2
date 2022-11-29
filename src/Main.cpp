@@ -93,21 +93,40 @@ public:
 
     int currentLevel = 0;
 
-    PlayerDude():Player(600, 0, 100, 100) {}
+    PlayerDude():Player(600, 110, 100, 100) {
+
+        resetYVelocity();
+        changeYVelocity(1);
+    }
 
     void tick() {
 
+//        if (yDirection > 25){
+//            resetYVelocity();
+//            changeYVelocity(25);
+//        }
+
+        cout << "x: " << getXPosition() << "y: " << getYPosition() << endl;
+
+
         if (getYPosition() < 0){
 
-            ses.setLevel(levels[currentLevel+1]);
-            currentLevel++;
-            setYPosition(1200);
+            if (currentLevel + 1 + 1 <= levels.size()){
+                ses.setLevel(levels[currentLevel+1]);
+                currentLevel++;
+                setYPosition(1200);
+            }
+
         }
 
         if (getYPosition() > 1200){
-            ses.setLevel(levels[currentLevel-1]);
-            currentLevel--;
-            setYPosition(0);
+
+            if (currentLevel - 1 >= 0){
+                ses.setLevel(levels[currentLevel-1]);
+                currentLevel--;
+                setYPosition(0);
+            }
+
         }
 
 
@@ -151,7 +170,7 @@ int main(int argc, char** argv){
     Terrain* t1 = Terrain::getInstance(380, 900, 200, 50, 3);
     Terrain* t2 = Terrain::getInstance(600, 700, 200, 50, 3);
     Terrain* t3 = Terrain::getInstance(900, 450, 200, 50, 3);
-    Terrain* t4 = Terrain::getInstance(600, 200, 200, 50, 3);
+    Terrain* t4 = Terrain::getInstance(600, 220, 200, 50, 3);
     Terrain* t5 = Terrain::getInstance(100, 380, 200, 50, 3);
 
     levels[0].push_back(bg);
@@ -205,6 +224,8 @@ int main(int argc, char** argv){
 
 
     levels.clear();
+    level1.clear();
+    level2.clear();
 
     delete player;
     delete t0;
