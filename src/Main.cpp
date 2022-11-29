@@ -90,13 +90,15 @@ int main(int argc, char** argv){
 //    Label* lbl = Label::getInstance(400, 100, 200, 70, "0");
 
     Background* bg = Background::getInstance(0,0,0,0);
-    Player* player = Player::getInstance(250, 0, 100, 100);
-    Terrain* t1 = Terrain::getInstance(250, 1100, 200, 50, 3);
-    Terrain* t2 = Terrain::getInstance(380, 900, 200, 50, 3);
-    Terrain* t3 = Terrain::getInstance(500, 1100, 200, 50, 3);
-//    Terrain* t3 = Terrain::getInstance(570, 700, 200, 50, 3);
-//    Terrain* t4 = Terrain::getInstance(700, 550, 130, 50, 2);
-//    Terrain* t5 = Terrain::getInstance(570, 400, 70, 50, 1);
+    Player* player = Player::getInstance(250, 1000, 100, 100);
+    Terrain* t0 = Terrain::getInstance(0, 1150 , 1200, 50, 3);
+    Terrain* t1 = Terrain::getInstance(380, 900, 200, 50, 3);
+    Terrain* t2 = Terrain::getInstance(600, 700, 200, 50, 3);
+    Terrain* t3 = Terrain::getInstance(900, 450, 200, 50, 3);
+    Terrain* t4 = Terrain::getInstance(600, 200, 200, 50, 3);
+    Terrain* t5 = Terrain::getInstance(100, 380, 200, 50, 3);
+
+
 
 
     //Terrain* t2 = Terrain::getInstance(250, 1100, 200, 50, 3);
@@ -117,9 +119,12 @@ int main(int argc, char** argv){
 //    ses.add(b4);
     ses.add(bg);
     ses.add(player);
+    ses.add(t0);
     ses.add(t1);
     ses.add(t2);
     ses.add(t3);
+    ses.add(t4);
+    ses.add(t5);
 //    ses.add(t3);
 //    ses.add(t4);
 //    ses.add(t5);

@@ -7,6 +7,14 @@
 
 namespace jengine {
 
+    bool chargeJump = false;
+
+    double verticalCounter = 0;
+
+    double heightCounter = 0;
+
+
+
     Player *Player::getInstance(int x, int y, int w, int h) {
         return new Player(x, y, w, h);
     }
@@ -35,6 +43,10 @@ namespace jengine {
 
     void Player::resetYVelocity() {
         yDirection = 0;
+    }
+
+    void Player::resetXVelocity(){
+        xDirection = 0;
     }
 
     void Player::changeYVelocity(int y) {
@@ -74,17 +86,63 @@ namespace jengine {
         switch (event.key.keysym.sym) {
             case SDLK_SPACE:
 
+                if (!chargeJump){
+                    chargeJump = true;
+                    std::cout << "charging jump" << std::endl;
+                    heightCounter+=10;
+                }
+
+                if (heightCounter < 25){
+                    heightCounter+=0.5;
+                    std::cout << "hc: "  << heightCounter << std::endl;
+                }else{
+                    std::cout << "max horizontal charge charge" << std::endl;
+                }
+
                 currentTx = downTx;
 
                 break;
             case SDLK_LEFT:
-                rect.x -= 30;
-                currentTx = leftTx;
 
+                if (!chargeJump && yDirection == 0){
+                    rect.x -= 30;
+                    currentTx = leftTx;
+                }
+
+                if (chargeJump){
+
+                    if (verticalCounter == 0){
+                        verticalCounter+=2;
+                        std::cout << "vc: " << verticalCounter <<  std::endl;
+                    }else if (verticalCounter < 20 && verticalCounter > -20){
+                        verticalCounter+=0.5;
+                        std::cout << "vc: " << verticalCounter <<  std::endl;
+                    }else{
+                        std::cout << "max vertical charge" << std::endl;
+                    }
+
+                }
                 break;
             case SDLK_RIGHT:
-                rect.x += 30;
-                currentTx = rightTx;
+
+                if (!chargeJump && yDirection == 0){
+                    rect.x += 30;
+                    currentTx = rightTx;
+                }
+
+                if (chargeJump){
+
+                    if (verticalCounter == 0){
+                        verticalCounter-=2;
+                        std::cout << "vc: " << verticalCounter <<  std::endl;
+                    }else if (verticalCounter < 10 && verticalCounter > -10){
+                        verticalCounter-=0.5;
+                        std::cout << "vc: " << verticalCounter <<  std::endl;
+                    }else{
+                        std::cout << "max vertical charge" << std::endl;
+                    }
+
+                }
                 break;
         }
     }
@@ -93,15 +151,31 @@ namespace jengine {
         switch (event.key.keysym.sym) {
             case SDLK_SPACE:
                 if (yCollision) {
-                    setYPosition(rect.y - 15);
-                    changeYVelocity(-20);
+                    setYPosition(rect.y - 25);
+                    changeYVelocity(-heightCounter);
+
+                    chargeJump = false;
+
+                    changeXVelocity(verticalCounter);
+
+                    verticalCounter = 0;
+                    heightCounter = 0;
+
                 }
                 break;
             case SDLK_LEFT:
-                currentTx = idelTx;
+
+                if (!chargeJump){
+                    currentTx = idelTx;
+                }
+
                 break;
             case SDLK_RIGHT:
-                currentTx = idelTx;
+
+                if (!chargeJump){
+                    currentTx = idelTx;
+                }
+
                 break;
         }
     }
@@ -116,6 +190,9 @@ namespace jengine {
 
         if (yDirection != 0) {
             currentTx = airTx;
+
+            rect.x += xDirection;
+
         } else if (!(currentTx == leftTx || currentTx == rightTx || currentTx == downTx)) {
             currentTx = idelTx;
         }

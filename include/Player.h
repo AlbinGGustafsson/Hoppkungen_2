@@ -25,6 +25,7 @@ namespace jengine {
         void keyUp(const SDL_Event &event);
 
         void resetYVelocity();
+        void resetXVelocity();
 
         void changeYVelocity(int y);
 

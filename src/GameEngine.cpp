@@ -89,11 +89,20 @@ namespace jengine {
             //just nu har vi en temporär lösningen som bevisade att detta var problemet.
             //men vi måste hitta en lösning på riktigt.
 
-            int counter = 0;
 
             //player collision
             for (Sprite *s: sprites) {
                 if (Player *p = dynamic_cast<Player *>(s)) {
+
+                    if (p->getYVelocity() < 15) {
+                        //std::cout << counter << sprites.size() << std::endl;
+                            p->changeYVelocity(1);
+
+                    }
+                    p->setYCollision(false);
+
+
+
                     for (Sprite *sp: sprites) {
                         if (Terrain *t = dynamic_cast<Terrain *>(sp)) {
                             if (SDL_HasIntersection(&p->getRect(), &t->getRect())) {
@@ -103,17 +112,18 @@ namespace jengine {
                                 //std::cout << "px+pw: " << (p->getXPosition() + p->getRect().w) << "tx + 15: " << t->getXPosition() + 15;
 
                                 //Ovanför
-                                if ((p->getYPosition() + p->getRect().h) <= (t->getYPosition() + 15)) {
+                                if ((p->getYPosition() + p->getRect().h) <= (t->getYPosition() + 25)) {
                                     //std::cout << "py + h: " << (p->getYPosition() + p->getRect().h) << " ty + 16 " << (t->getYPosition() + 16) << std::endl;
                                     p->setYCollision(true);
                                     p->resetYVelocity();
-                                    break;
+                                    p->resetXVelocity();
+                                    //break;
                                 }
                                 //under
-                                if (p->getYPosition() >= (t->getYPosition() + 15)){
+                                else if (p->getYPosition() >= (t->getYPosition() + t->getRect().h - 25)){
                                     //p->setYPosition(p->getYPosition() + 50);
                                     p->changeYVelocity(-p->getYVelocity()*2);
-                                    break;
+                                    //break;
                                 }else{
                                     std::cout << "else" << std::endl;
 
@@ -126,20 +136,14 @@ namespace jengine {
                                     if (p->getXPosition() > (t->getXPosition() + t->getRect().h/2)){
                                         p->setXPosition(p->getXPosition() + 30);
                                     }
-                                    break;
+
+                                    p->resetXVelocity();
+                                    //break;
                                 }
 
 
                             }
-                            if (p->getYVelocity() < 15) {
-                                counter++;
-                                //std::cout << counter << sprites.size() << std::endl;
-                                if (counter % sprites.size() - 2 == 0){
-                                    p->changeYVelocity(1);
-                                }
 
-                            }
-                            p->setYCollision(false);
 
                         }
                     }
