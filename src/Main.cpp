@@ -90,7 +90,7 @@ int main(int argc, char** argv){
 //    Label* lbl = Label::getInstance(400, 100, 200, 70, "0");
 
     Background* bg = Background::getInstance(0,0,0,0);
-    Player* player = Player::getInstance(250, 1000, 100, 100);
+    Player* player = Player::getInstance(600, 0, 100, 100);
     Terrain* t0 = Terrain::getInstance(0, 1150 , 1200, 50, 3);
     Terrain* t1 = Terrain::getInstance(380, 900, 200, 50, 3);
     Terrain* t2 = Terrain::getInstance(600, 700, 200, 50, 3);

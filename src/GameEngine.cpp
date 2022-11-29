@@ -112,7 +112,7 @@ namespace jengine {
                                 //std::cout << "px+pw: " << (p->getXPosition() + p->getRect().w) << "tx + 15: " << t->getXPosition() + 15;
 
                                 //Ovanför
-                                if ((p->getYPosition() + p->getRect().h) <= (t->getYPosition() + 25)) {
+                                if ((p->getYPosition() + p->getRect().h) <= (t->getYPosition() + 15)) {
                                     //std::cout << "py + h: " << (p->getYPosition() + p->getRect().h) << " ty + 16 " << (t->getYPosition() + 16) << std::endl;
                                     p->setYCollision(true);
                                     p->resetYVelocity();
@@ -122,7 +122,9 @@ namespace jengine {
                                 //under
                                 else if (p->getYPosition() >= (t->getYPosition() + t->getRect().h - 25)){
                                     //p->setYPosition(p->getYPosition() + 50);
-                                    p->changeYVelocity(-p->getYVelocity()*2);
+                                    p->resetYVelocity();
+                                    p->changeYVelocity(5);
+//                                    p->changeYVelocity(-p->getYVelocity()*2);
                                     //break;
                                 }else{
                                     std::cout << "else" << std::endl;
@@ -130,14 +132,19 @@ namespace jengine {
                                     //Vänster
                                     if (p->getXPosition() < (t->getXPosition() + t->getRect().h/2)){
                                         p->setXPosition(p->getXPosition() - 30);
+                                        p->resetXVelocity();
+                                        p->changeYVelocity(-(p->getYVelocity()/2));
                                     }
-
                                     //höger
-                                    if (p->getXPosition() > (t->getXPosition() + t->getRect().h/2)){
+                                    else if (p->getXPosition() > (t->getXPosition() + t->getRect().h/2)){
                                         p->setXPosition(p->getXPosition() + 30);
+                                        p->resetXVelocity();
+                                        p->changeYVelocity(-(p->getYVelocity()/2));
+                                    }else{
+                                        //testar, kanske förhindrar clipping
+                                        p->setYPosition(p->getYPosition() - 25);
                                     }
 
-                                    p->resetXVelocity();
                                     //break;
                                 }
 

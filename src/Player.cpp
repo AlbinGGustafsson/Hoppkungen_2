@@ -151,7 +151,7 @@ namespace jengine {
         switch (event.key.keysym.sym) {
             case SDLK_SPACE:
                 if (yCollision) {
-                    setYPosition(rect.y - 25);
+                    setYPosition(rect.y - 15);
                     changeYVelocity(-heightCounter);
 
                     chargeJump = false;
