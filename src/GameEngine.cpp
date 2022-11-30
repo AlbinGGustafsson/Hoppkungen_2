@@ -5,6 +5,10 @@
 #include "Player.h"
 #include "Terrain.h"
 #include <iostream>
+#include "Background.h"
+#include "Constants.h"
+
+using namespace constants;
 
 namespace jengine {
 
@@ -139,8 +143,12 @@ namespace jengine {
 
     void GameEngine::setLevel(std::vector<Sprite *> level) {
         sprites = level;
-
+        for(Sprite* s: sprites){
+            if(Background *bg = dynamic_cast<Background *>(s)){
+                Mix_PlayChannel(MUSIC_CHANNEL,bg->getBackgroundMusic() , -1);
+                Mix_Volume(MUSIC_CHANNEL, bg->getMusicVolume());
+            }
+        }
     }
-
 }
 
