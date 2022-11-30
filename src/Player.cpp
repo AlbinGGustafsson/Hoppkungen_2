@@ -128,7 +128,7 @@ namespace jengine {
                 if (!chargeJump && yVelocity == 0 && !xCollision){
                     rect.x -= 20;
                     currentTx = leftTx;
-                    Mix_PlayChannel(-1, walkingSFX, 0);
+                    Mix_PlayChannel(2, walkingSFX, 0);
                 }
 
                 if (chargeJump){
@@ -149,7 +149,7 @@ namespace jengine {
                 if (!chargeJump && yVelocity == 0 && !xCollision){
                     rect.x += 20;
                     currentTx = rightTx;
-                    Mix_PlayChannel(-1, walkingSFX, 0);
+                    Mix_PlayChannel(2, walkingSFX, 0);
                 }
 
                 if (chargeJump){
