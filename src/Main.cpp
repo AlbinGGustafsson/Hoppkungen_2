@@ -12,6 +12,10 @@
 
 using namespace jengine;
 using namespace std;
+using namespace constants;
+
+static const int WINDOW_HEIGHT = 1200;
+static const int WINDOW_WIDTH = 1200;
 
 int value = 0;
 GameEngine ses;

@@ -6,6 +6,8 @@
 #include <iostream>
 #include <SDL2/SDL_mixer.h>
 
+using namespace constants;
+
 namespace jengine {
 
 

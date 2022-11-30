@@ -91,9 +91,8 @@ namespace jengine {
             for (Sprite *s: sprites) {
                 if (Player *p = dynamic_cast<Player *>(s)) {
 
-                    if (p->getYVelocity() < 15) {
-                        //std::cout << counter << sprites.size() << std::endl;
-                        p->changeYVelocity(1);
+                    if (p->getYVelocity() < MAX_PLAYER_DOWNWARD_VELOCITY) {
+                        p->changeYVelocity(PLAYER_DOWNWARD_VELOCITY_GROWTH);
 
                     }
                     p->setYCollision(false);
