@@ -1,6 +1,8 @@
 #ifndef SPRITE_H
 #define SPRITE_H
-#include <SDL2/SDL.h> 
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
+#include "Constants.h"
 
 namespace jengine{
     

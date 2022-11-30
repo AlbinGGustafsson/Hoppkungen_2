@@ -1,9 +1,10 @@
 #include <SDL2/SDL_events.h>
-#include "Player.h"
+#include "../include/Player.h"
 #include <SDL2/SDL_image.h>
-#include "Constants.h"
-#include "System.h"
+#include "../include/Constants.h"
+#include "../include/System.h"
 #include <iostream>
+#include <SDL2/SDL_mixer.h>
 
 namespace jengine {
 
@@ -19,12 +20,16 @@ namespace jengine {
         rightTx = IMG_LoadTexture(sys.getRenderer(), (constants::gResPath + "images/player/right.png").c_str());
         downTx = IMG_LoadTexture(sys.getRenderer(), (constants::gResPath + "images/player/down.png").c_str());
         idelTx = IMG_LoadTexture(sys.getRenderer(), (constants::gResPath + "images/player/idle.png").c_str());
+        walkingSFX = Mix_LoadWAV((constants::gResPath + "sounds/grassFootstep.mp3").c_str());
+        jumpCharge = Mix_LoadWAV((constants::gResPath + "sounds/charge.mp3").c_str());
+        jump = Mix_LoadWAV((constants::gResPath + "sounds/jump.mp3").c_str());
 
         currentTx = idelTx;
 
         xVelocity = 0;
         yVelocity = 1;
 
+        jumpChargePlaying = false;
         chargeJump = false;
         verticalCounter = 0;
         heightCounter = 0;
@@ -87,6 +92,10 @@ namespace jengine {
         xVelocity = x;
     }
 
+    void Player::setFootstepSoundFX(std::string fileName) {
+        walkingSFX = Mix_LoadWAV((constants::gResPath + "sounds/" + fileName).c_str());
+    }
+
     void Player::keyDown(const SDL_Event &event) {
         switch (event.key.keysym.sym) {
             case SDLK_SPACE:
@@ -106,6 +115,11 @@ namespace jengine {
                     }
 
                     currentTx = downTx;
+                    if(!jumpChargePlaying){
+                        Mix_PlayChannel(-1, jumpCharge, 0);
+                        jumpChargePlaying = true;
+                    }
+
                 }
 
                 break;
@@ -114,6 +128,7 @@ namespace jengine {
                 if (!chargeJump && yVelocity == 0 && !xCollision){
                     rect.x -= 20;
                     currentTx = leftTx;
+                    Mix_PlayChannel(-1, walkingSFX, 0);
                 }
 
                 if (chargeJump){
@@ -134,6 +149,7 @@ namespace jengine {
                 if (!chargeJump && yVelocity == 0 && !xCollision){
                     rect.x += 20;
                     currentTx = rightTx;
+                    Mix_PlayChannel(-1, walkingSFX, 0);
                 }
 
                 if (chargeJump){
@@ -162,12 +178,15 @@ namespace jengine {
                     changeYVelocity(static_cast<int>(-heightCounter));
 
                     chargeJump = false;
+                    jumpChargePlaying = false;
 
                     changeXVelocity(static_cast<int>(verticalCounter));
                     verticalCounter = 0;
                     heightCounter = 0;
 
                 }
+
+                Mix_PlayChannel(-1, jump, 0);
                 break;
             case SDLK_LEFT:
 
@@ -214,6 +233,7 @@ namespace jengine {
 
 
     Player::~Player() {
+        Mix_FreeChunk(walkingSFX);
         SDL_DestroyTexture(airTx);
         SDL_DestroyTexture(leftTx);
         SDL_DestroyTexture(rightTx);

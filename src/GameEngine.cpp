@@ -19,7 +19,6 @@ namespace jengine {
 
     void GameEngine::run() {
         Uint32 tickInterval = 1000 / FPS;
-
         bool running = true;
         while (running) {
 

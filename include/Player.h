@@ -1,6 +1,5 @@
 #ifndef PLAYER_H
 #define PLAYER_H
-#include <SDL2/SDL.h>
 #include "EventSprite.h"
 namespace jengine {
 
@@ -33,6 +32,8 @@ namespace jengine {
         void setYVelocity(int y);
         void setXVelocity(int x);
 
+        void setFootstepSoundFX(std::string soundFileName);
+
         void draw() const;
 
         void tick();
@@ -57,6 +58,15 @@ namespace jengine {
         //current texture
         SDL_Texture* currentTx;
 
+
+        //WalkingSound
+        Mix_Chunk* walkingSFX;
+        //jump charge sound
+        Mix_Chunk* jumpCharge;
+
+        //jump sound
+        Mix_Chunk* jump;
+
         int yVelocity;
         int xVelocity;
 
@@ -66,6 +76,7 @@ namespace jengine {
         bool chargeJump;
         double verticalCounter;
         double heightCounter;
+        bool jumpChargePlaying;
 
     private:
 
