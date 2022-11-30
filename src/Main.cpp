@@ -328,6 +328,7 @@ int main(int argc, char** argv){
     Background* bg = Background::getInstance(0,0,0,0, "bg1.png", "bgMusic1.mp3", 10);
     Background* bg2 = Background::getInstance(0,0,0,0, "bg2.png", "bgMusic2.mp3", 128);
     Player* player = new PlayerDude();
+    player->changePlayerSFXVolume(30);
     //Player* player = Player::getInstance(600, 110, 100, 100);
 
     Terrain* t0 = Terrain::getInstance(-100, 1150 , 1400, 50, 3);
