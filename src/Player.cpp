@@ -7,13 +7,6 @@
 
 namespace jengine {
 
-    bool chargeJump = false;
-
-    double verticalCounter = 0;
-
-    double heightCounter = 0;
-
-
 
     Player *Player::getInstance(int x, int y, int w, int h) {
         return new Player(x, y, w, h);
@@ -29,8 +22,13 @@ namespace jengine {
 
         currentTx = idelTx;
 
-        xDirection = 0;
-        //yStart = h;
+        xVelocity = 0;
+        yVelocity = 1;
+
+        chargeJump = false;
+        verticalCounter = 0;
+        heightCounter = 0;
+
     }
 
     void Player::setXCollision(bool collision) {
@@ -42,27 +40,27 @@ namespace jengine {
     }
 
     void Player::resetYVelocity() {
-        yDirection = 0;
+        yVelocity = 0;
     }
 
     void Player::resetXVelocity(){
-        xDirection = 0;
+        xVelocity = 0;
     }
 
     void Player::changeYVelocity(int y) {
-        yDirection += y;
+        yVelocity += y;
     }
 
     void Player::changeXVelocity(int x) {
-        xDirection -= x;
+        xVelocity -= x;
     }
 
     int Player::getXVelocity() {
-        return xDirection;
+        return xVelocity;
     }
 
     int Player::getYVelocity() {
-        return yDirection;
+        return yVelocity;
     }
 
     int Player::getXPosition() {
@@ -82,35 +80,43 @@ namespace jengine {
         rect.y = y;
     }
 
+    void Player::setYVelocity(int y){
+        yVelocity = y;
+    }
+    void Player::setXVelocity(int x){
+        xVelocity = x;
+    }
+
     void Player::keyDown(const SDL_Event &event) {
         switch (event.key.keysym.sym) {
             case SDLK_SPACE:
 
-                if (!chargeJump){
-                    chargeJump = true;
-                    std::cout << "charging jump" << std::endl;
-                    heightCounter+=10;
-                }
+                if (yCollision) {
+                    if (!chargeJump){
+                        chargeJump = true;
+                        std::cout << "charging jump" << std::endl;
+                        heightCounter+=10;
+                    }
 
-                if (heightCounter < 25){
-                    heightCounter+=0.5;
-                    std::cout << "hc: "  << heightCounter << std::endl;
-                }else{
-                    std::cout << "max horizontal charge charge" << std::endl;
-                }
+                    if (heightCounter < 25){
+                        heightCounter+=0.5;
+                        std::cout << "hc: "  << heightCounter << std::endl;
+                    }else{
+                        std::cout << "max horizontal charge charge" << std::endl;
+                    }
 
-                currentTx = downTx;
+                    currentTx = downTx;
+                }
 
                 break;
             case SDLK_LEFT:
 
-                if (!chargeJump && yDirection == 0){
+                if (!chargeJump && yVelocity == 0 && !xCollision){
                     rect.x -= 30;
                     currentTx = leftTx;
                 }
 
                 if (chargeJump){
-
                     if (verticalCounter == 0){
                         verticalCounter+=2;
                         std::cout << "vc: " << verticalCounter <<  std::endl;
@@ -125,7 +131,7 @@ namespace jengine {
                 break;
             case SDLK_RIGHT:
 
-                if (!chargeJump && yDirection == 0){
+                if (!chargeJump && yVelocity == 0 && !xCollision){
                     rect.x += 30;
                     currentTx = rightTx;
                 }
@@ -157,7 +163,6 @@ namespace jengine {
                     chargeJump = false;
 
                     changeXVelocity(verticalCounter);
-
                     verticalCounter = 0;
                     heightCounter = 0;
 
@@ -188,16 +193,20 @@ namespace jengine {
 
     void Player::tick() {
 
-        if (yDirection != 0) {
+        if (yVelocity != 0) {
             currentTx = airTx;
 
-            rect.x += xDirection;
+            chargeJump = false;
+            verticalCounter = 0;
+            heightCounter = 0;
+
+            rect.x += xVelocity;
 
         } else if (!(currentTx == leftTx || currentTx == rightTx || currentTx == downTx)) {
             currentTx = idelTx;
         }
 
-        rect.y += yDirection;
+        rect.y += yVelocity;
     }
 
 

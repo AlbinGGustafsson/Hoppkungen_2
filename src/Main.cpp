@@ -87,27 +87,49 @@ public:
 };
 
 
+class MovingTerrain: public Terrain{
+public:
+
+    bool moveRight = true;
+
+    MovingTerrain():Terrain(900, 800, 200, 50, 3){}
+
+    void tick(){
+
+        if (moveRight){
+            if (rect.x < 995){
+                rect.x+=3;
+            }
+
+            if (rect.x > 995){
+                moveRight = false;
+            }
+        }
+
+        if (!moveRight){
+
+            if (rect.x > 5){
+                rect.x-=3;
+            }
+            if (rect.x < 5){
+                moveRight = true;
+            }
+
+        }
+
+    }
+};
+
+
 
 class PlayerDude: public Player{
 public:
 
     int currentLevel = 0;
 
-    PlayerDude():Player(600, 110, 100, 100) {
-
-        resetYVelocity();
-        changeYVelocity(1);
-    }
+    PlayerDude():Player(600, 110, 100, 100) {}
 
     void tick() {
-
-//        if (yDirection > 25){
-//            resetYVelocity();
-//            changeYVelocity(25);
-//        }
-
-        cout << "x: " << getXPosition() << "y: " << getYPosition() << endl;
-
 
         if (getYPosition() < 0){
 
@@ -130,24 +152,28 @@ public:
         }
 
 
-        if (getXPosition() + getRect().w > 1200){
-            setXPosition(0);
+        if (getXPosition() + getRect().w > 1250){
+            setXPosition(-50);
         }
 
-        if (getXPosition() < 0){
-            setXPosition(1200 - getRect().w);
+        if (getXPosition() < -50){
+            setXPosition(1250 - getRect().w);
         }
 
-        if (yDirection != 0) {
+        if (yVelocity != 0) {
             currentTx = airTx;
 
-            rect.x += xDirection;
+            chargeJump = false;
+            verticalCounter = 0;
+            heightCounter = 0;
+
+            rect.x += xVelocity;
 
         } else if (!(currentTx == leftTx || currentTx == rightTx || currentTx == downTx)) {
             currentTx = idelTx;
         }
 
-        rect.y += yDirection;
+        rect.y += yVelocity;
     }
 };
 
@@ -156,35 +182,63 @@ public:
 int main(int argc, char** argv){
 //    Label* lbl = Label::getInstance(400, 100, 200, 70, "0");
 
-
     std::vector<Sprite*> level1;
     std::vector<Sprite*> level2;
+    std::vector<Sprite*> level3;
 
     levels.push_back(level1);
     levels.push_back(level2);
+    levels.push_back(level3);
 
 
     Background* bg = Background::getInstance(0,0,0,0);
     Player* player = new PlayerDude();
-    Terrain* t0 = Terrain::getInstance(0, 1150 , 1200, 50, 3);
+
+    Terrain* t0 = Terrain::getInstance(-100, 1150 , 1400, 50, 3);
     Terrain* t1 = Terrain::getInstance(380, 900, 200, 50, 3);
     Terrain* t2 = Terrain::getInstance(600, 700, 200, 50, 3);
     Terrain* t3 = Terrain::getInstance(900, 450, 200, 50, 3);
     Terrain* t4 = Terrain::getInstance(600, 220, 200, 50, 3);
     Terrain* t5 = Terrain::getInstance(100, 380, 200, 50, 3);
 
+    Terrain* t6 = new MovingTerrain();
+    Terrain* t7 = Terrain::getInstance(0, 1200-700, 50, 700, 1);
+    Terrain* t8 = Terrain::getInstance(1200, 1200-700, 50, 700, 1);
+
+    Terrain* t11 = Terrain::getInstance(333, 1146, 200, 50, 3);
+    Terrain* t12 = Terrain::getInstance(651, 860, 200, 50, 3);
+    Terrain* t13 = Terrain::getInstance(75, 725, 200, 50, 3);
+    Terrain* t14 = Terrain::getInstance(465, 577, 200, 50, 3);
+    Terrain* t15 = Terrain::getInstance(144, 363, 200, 50, 3);
+    Terrain* t16 = Terrain::getInstance(349, 129, 200, 50, 3);
+
+
     levels[0].push_back(bg);
-    levels[0].push_back(player);
     levels[0].push_back(t0);
     levels[0].push_back(t1);
     levels[0].push_back(t2);
     levels[0].push_back(t3);
     levels[0].push_back(t4);
     levels[0].push_back(t5);
+    levels[0].push_back(t6);
+    levels[0].push_back(t7);
+    levels[0].push_back(t8);
+    levels[0].push_back(player);
 
     levels[1].push_back(bg);
-    levels[1].push_back(t4);
+    levels[1].push_back(t11);
+    levels[1].push_back(t12);
+    levels[1].push_back(t13);
+    levels[1].push_back(t14);
+    levels[1].push_back(t15);
+    levels[1].push_back(t16);
     levels[1].push_back(player);
+
+    levels[2].push_back(bg);
+    levels[2].push_back(player);
+
+
+
 
     //Terrain* t2 = Terrain::getInstance(250, 1100, 200, 50, 3);
 

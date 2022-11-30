@@ -28,8 +28,10 @@ namespace jengine {
         void resetXVelocity();
 
         void changeYVelocity(int y);
-
         void changeXVelocity(int x);
+
+        void setYVelocity(int y);
+        void setXVelocity(int x);
 
         void draw() const;
 
@@ -55,12 +57,16 @@ namespace jengine {
         //current texture
         SDL_Texture* currentTx;
 
-        int yDirection;
-        int xDirection;
-        int yStart;
+        int yVelocity;
+        int xVelocity;
 
         bool yCollision;
         bool xCollision;
+
+        bool chargeJump;
+        double verticalCounter;
+        double heightCounter;
+
     private:
 
 
