@@ -116,7 +116,7 @@ namespace jengine {
 
                     currentTx = downTx;
                     if(!jumpChargePlaying){
-                        Mix_PlayChannel(-1, jumpCharge, 0);
+                        Mix_PlayChannel(0, jumpCharge, 0);
                         jumpChargePlaying = true;
                     }
 
@@ -186,7 +186,7 @@ namespace jengine {
 
                 }
 
-                Mix_PlayChannel(-1, jump, 0);
+                Mix_PlayChannel(0, jump, 0);
                 break;
             case SDLK_LEFT:
 
