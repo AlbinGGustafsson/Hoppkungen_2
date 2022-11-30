@@ -133,8 +133,6 @@ public:
     constexpr static const double PLAYER_HORIZONTAL_CHARGE_GROWTH = 0.5;
     constexpr static const double PLAYER_VERTICAL_CHARGE_GROWTH = 0.5;
     static const int HORIZONTAL_MOVEMENT = 20;
-    static const int WINDOW_HEIGHT = 1200;
-    static const int WINDOW_WIDTH = 1200;
 
     int currentLevel = 0;
     bool chargingJump;
@@ -310,7 +308,29 @@ public:
 
         rect.y += yVelocity;
     }
+
+    int getCurrentLevel(){
+        return currentLevel;
+    }
+
+
 };
+
+
+class HeightLabel: public Label{
+public:
+
+    HeightLabel(PlayerDude* p):Label(50, 50, 50, 30, "0"), player(p){}
+
+    void tick(){
+
+        int height = player->getCurrentLevel()*WINDOW_HEIGHT + (1200-player->getYPosition());
+        setText(to_string(height));
+    }
+    PlayerDude* player;
+};
+
+
 
 
 int main(int argc, char** argv){
@@ -327,7 +347,7 @@ int main(int argc, char** argv){
 
     Background* bg = Background::getInstance(0,0,0,0, "bg1.png", "bgMusic1.mp3", 10);
     Background* bg2 = Background::getInstance(0,0,0,0, "bg2.png", "bgMusic2.mp3", 128);
-    Player* player = new PlayerDude();
+    PlayerDude* player = new PlayerDude();
     player->changePlayerSFXVolume(30);
     //Player* player = Player::getInstance(600, 110, 100, 100);
 
@@ -338,7 +358,8 @@ int main(int argc, char** argv){
     Terrain* t4 = Terrain::getInstance(600, 220, 200, 50, 3);
     Terrain* t5 = Terrain::getInstance(100, 380, 200, 50, 3);
 
-    Terrain* t7 = Terrain::getInstance(0, 1200-700, 50, 700, 3);
+    HeightLabel* heightLabel = new HeightLabel(player);
+    //Terrain* t7 = Terrain::getInstance(0, 1200-700, 50, 700, 3);
 
     Terrain* t6 = new MovingTerrain();
 
@@ -358,8 +379,8 @@ int main(int argc, char** argv){
     levels[0].push_back(t4);
     levels[0].push_back(t5);
     levels[0].push_back(t6);
-    levels[0].push_back(t7);
     levels[0].push_back(player);
+    levels[0].push_back(heightLabel);
 
     levels[1].push_back(bg2);
     levels[1].push_back(t11);
@@ -369,9 +390,11 @@ int main(int argc, char** argv){
     levels[1].push_back(t15);
     levels[1].push_back(t16);
     levels[1].push_back(player);
+    levels[1].push_back(heightLabel);
 
     levels[2].push_back(bg);
     levels[2].push_back(player);
+    levels[2].push_back(heightLabel);
 
 
 
