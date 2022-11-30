@@ -25,10 +25,13 @@ namespace jengine {
         void keyUp(const SDL_Event &event);
 
         void resetYVelocity();
+        void resetXVelocity();
 
         void changeYVelocity(int y);
-
         void changeXVelocity(int x);
+
+        void setYVelocity(int y);
+        void setXVelocity(int x);
 
         void draw() const;
 
@@ -38,7 +41,7 @@ namespace jengine {
 
     protected:
         Player(int x, int y, int w, int h);
-    private:
+
 
         //InAirImage
         SDL_Texture* airTx;
@@ -54,12 +57,18 @@ namespace jengine {
         //current texture
         SDL_Texture* currentTx;
 
-        int yDirection;
-        int xDirection;
-        int yStart;
+        int yVelocity;
+        int xVelocity;
 
         bool yCollision;
         bool xCollision;
+
+        bool chargeJump;
+        double verticalCounter;
+        double heightCounter;
+
+    private:
+
 
     };
 

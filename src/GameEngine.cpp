@@ -84,62 +84,67 @@ namespace jengine {
             }
             removed.clear();
 
-
-            //Vi hade en bugg att den körde p->changeYVelocity(1); så många Terrains vi har i sprites.
-            //just nu har vi en temporär lösningen som bevisade att detta var problemet.
-            //men vi måste hitta en lösning på riktigt.
-
-            int counter = 0;
-
             //player collision
             for (Sprite *s: sprites) {
                 if (Player *p = dynamic_cast<Player *>(s)) {
+
+                    if (p->getYVelocity() < 15) {
+                        //std::cout << counter << sprites.size() << std::endl;
+                        p->changeYVelocity(1);
+
+                    }
+                    p->setYCollision(false);
+                    p->setXCollision(false);
+
+
                     for (Sprite *sp: sprites) {
                         if (Terrain *t = dynamic_cast<Terrain *>(sp)) {
                             if (SDL_HasIntersection(&p->getRect(), &t->getRect())) {
-
-                                //haha... ett försök men man kan clippa in i hörnen och "fastna"
 
                                 //std::cout << "px+pw: " << (p->getXPosition() + p->getRect().w) << "tx + 15: " << t->getXPosition() + 15;
 
                                 //Ovanför
                                 if ((p->getYPosition() + p->getRect().h) <= (t->getYPosition() + 15)) {
                                     //std::cout << "py + h: " << (p->getYPosition() + p->getRect().h) << " ty + 16 " << (t->getYPosition() + 16) << std::endl;
+
                                     p->setYCollision(true);
                                     p->resetYVelocity();
-                                    break;
+                                    p->resetXVelocity();
+
+                                    //anti clipping
+                                    p->setYPosition(t->getRect().y + 1 - p->getRect().h);
                                 }
                                 //under
-                                if (p->getYPosition() >= (t->getYPosition() + 15)){
-                                    //p->setYPosition(p->getYPosition() + 50);
-                                    p->changeYVelocity(-p->getYVelocity()*2);
-                                    break;
-                                }else{
-                                    std::cout << "else" << std::endl;
+                                else if (p->getYPosition() >= (t->getYPosition() + t->getRect().h - 25)) {
+
+                                    if (p->getYVelocity() > -5){
+                                        p->setYVelocity(5);
+                                    }else{
+                                        p->setYVelocity(p->getYVelocity() < -10 ? 10 : -p->getYVelocity());
+                                    }
+
+                                } else {
+                                    //std::cout << "else" << std::endl;
 
                                     //Vänster
-                                    if (p->getXPosition() < (t->getXPosition() + t->getRect().h/2)){
-                                        p->setXPosition(p->getXPosition() - 30);
+                                    if (p->getXPosition() < (t->getXPosition() + t->getRect().w / 2)) {
+                                        p->setXPosition(p->getXPosition() - 15);
+                                        p->setXVelocity(-(p->getXVelocity() / 2));
+                                        p->setXCollision(true);
                                     }
-
                                     //höger
-                                    if (p->getXPosition() > (t->getXPosition() + t->getRect().h/2)){
-                                        p->setXPosition(p->getXPosition() + 30);
+                                    else if (p->getXPosition() > (t->getXPosition() + t->getRect().w / 2)) {
+                                        p->setXPosition(p->getXPosition() + 15);
+                                        p->setXVelocity(-(p->getXVelocity() / 2));
+                                        p->setXCollision(true);
+                                    } else {
+                                        //testar, kanske förhindrar clipping
+                                        p->setYPosition(p->getYPosition() - 25);
                                     }
-                                    break;
-                                }
 
-
-                            }
-                            if (p->getYVelocity() < 15) {
-                                counter++;
-                                //std::cout << counter << sprites.size() << std::endl;
-                                if (counter % sprites.size() - 2 == 0){
-                                    p->changeYVelocity(1);
                                 }
 
                             }
-                            p->setYCollision(false);
 
                         }
                     }
@@ -172,6 +177,11 @@ namespace jengine {
 
 
     GameEngine::~GameEngine() {
+
+    }
+
+    void GameEngine::setLevel(std::vector<Sprite *> level) {
+        sprites = level;
 
     }
 
