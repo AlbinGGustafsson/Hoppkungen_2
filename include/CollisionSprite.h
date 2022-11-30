@@ -14,7 +14,12 @@ namespace jengine {
         CollisionSprite(int x, int y, int w, int h);
 
     public:
-        virtual void collision(Player *player) {}
+        virtual void collision(Player *player);
+        virtual void aboveCollision(Player* p);
+        virtual void belowCollision(Player* p);
+        virtual void leftCollision(Player* p);
+        virtual void rightCollision(Player* p);
+
 
         virtual ~CollisionSprite();
 

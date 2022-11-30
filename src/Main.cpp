@@ -94,6 +94,13 @@ public:
 
     MovingTerrain():Terrain(900, 800, 200, 50, 3){}
 
+
+    void aboveCollision(Player *p) override {
+        CollisionSprite::aboveCollision(p);
+        std::cout << "special collision" << std::endl;
+    }
+
+
     void tick(){
 
         if (moveRight){

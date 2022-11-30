@@ -13,9 +13,6 @@ namespace jengine {
         void draw() const;
         void tick();
 
-        void collision(Player* p);
-
-
         ~Terrain();
     protected:
         Terrain(int x, int y, int w, int h, int blocks);

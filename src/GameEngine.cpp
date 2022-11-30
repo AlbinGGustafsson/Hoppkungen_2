@@ -99,6 +99,7 @@ namespace jengine {
                     for (Sprite *sp: sprites) {
                         if (CollisionSprite *cs = dynamic_cast<CollisionSprite *>(sp)) {
                             if (SDL_HasIntersection(&p->getRect(), &cs->getRect())) {
+
                                 cs->collision(p);
 
                             }
