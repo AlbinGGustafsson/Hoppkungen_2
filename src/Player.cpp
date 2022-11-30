@@ -52,7 +52,7 @@ namespace jengine {
     }
 
     void Player::changeXVelocity(int x) {
-        xVelocity -= x;
+        xVelocity += x;
     }
 
     int Player::getXVelocity() {
@@ -118,10 +118,10 @@ namespace jengine {
 
                 if (chargeJump){
                     if (verticalCounter == 0){
-                        verticalCounter+=2;
+                        verticalCounter-=2;
                         std::cout << "vc: " << verticalCounter <<  std::endl;
                     }else if (verticalCounter < 10 && verticalCounter > -10){
-                        verticalCounter+=0.5;
+                        verticalCounter-=0.5;
                         std::cout << "vc: " << verticalCounter <<  std::endl;
                     }else{
                         std::cout << "max vertical charge" << std::endl;
@@ -139,10 +139,10 @@ namespace jengine {
                 if (chargeJump){
 
                     if (verticalCounter == 0){
-                        verticalCounter-=2;
+                        verticalCounter+=2;
                         std::cout << "vc: " << verticalCounter <<  std::endl;
                     }else if (verticalCounter < 10 && verticalCounter > -10){
-                        verticalCounter-=0.5;
+                        verticalCounter+=0.5;
                         std::cout << "vc: " << verticalCounter <<  std::endl;
                     }else{
                         std::cout << "max vertical charge" << std::endl;
@@ -157,12 +157,13 @@ namespace jengine {
         switch (event.key.keysym.sym) {
             case SDLK_SPACE:
                 if (yCollision) {
+                    //man klippar bara 1 pixel nu detta kanske bör ändras
                     setYPosition(rect.y - 15);
-                    changeYVelocity(-heightCounter);
+                    changeYVelocity(static_cast<int>(-heightCounter));
 
                     chargeJump = false;
 
-                    changeXVelocity(verticalCounter);
+                    changeXVelocity(static_cast<int>(verticalCounter));
                     verticalCounter = 0;
                     heightCounter = 0;
 
@@ -196,9 +197,11 @@ namespace jengine {
         if (yVelocity != 0) {
             currentTx = airTx;
 
+            //Resettar en charge när man faller/åker upp.
             chargeJump = false;
             verticalCounter = 0;
             heightCounter = 0;
+            //
 
             rect.x += xVelocity;
 

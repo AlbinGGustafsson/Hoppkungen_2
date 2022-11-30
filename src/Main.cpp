@@ -133,7 +133,7 @@ public:
 
         if (getYPosition() < 0){
 
-            if (currentLevel + 1 + 1 <= levels.size()){
+            if ((currentLevel + 1) < static_cast<int>(levels.size())){
                 ses.setLevel(levels[currentLevel+1]);
                 currentLevel++;
                 setYPosition(1200);
