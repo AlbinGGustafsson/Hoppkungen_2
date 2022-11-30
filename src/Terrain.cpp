@@ -5,34 +5,30 @@
 
 namespace jengine {
 
-    Terrain* Terrain::getInstance(int x, int y, int w, int h, int blocks){
-        return new Terrain(x,y,w,h, blocks);
+    using namespace constants;
+
+    Terrain *Terrain::getInstance(int x, int y, int w, int h, int blocks) {
+        return new Terrain(x, y, w, h, blocks);
     }
 
-    Terrain::Terrain(int x, int y, int w, int h, int blocks): NonEventSprite(x,y,w,h) , collidable(true) {
+    Terrain::Terrain(int x, int y, int w, int h, int blocks) : CollisionSprite(x, y, w, h) {
 
-        if (blocks == 1){
+        if (blocks == 1) {
             terrainTx = IMG_LoadTexture(sys.getRenderer(), (constants::gResPath + "images/terrain/single.png").c_str());
-        }else if (blocks == 2){
+        } else if (blocks == 2) {
             terrainTx = IMG_LoadTexture(sys.getRenderer(), (constants::gResPath + "images/terrain/double.png").c_str());
-        }else if (blocks == 3){
+        } else if (blocks == 3) {
             terrainTx = IMG_LoadTexture(sys.getRenderer(), (constants::gResPath + "images/terrain/triple.png").c_str());
-        }else{
+        } else {
             terrainTx = IMG_LoadTexture(sys.getRenderer(), (constants::gResPath + "images/terrain/single.png").c_str());
         }
     }
 
-    int Terrain::getXPosition(){
-        return rect.x;
-    }
-    int Terrain::getYPosition(){
-        return rect.y;
-    }
-
-    void Terrain::draw() const{
+    void Terrain::draw() const {
         SDL_RenderCopy(sys.getRenderer(), terrainTx, nullptr, &rect);
     }
-    void Terrain::tick(){
+
+    void Terrain::tick() {
         SDL_RenderCopy(sys.getRenderer(), terrainTx, nullptr, &rect);
     }
 
@@ -40,6 +36,5 @@ namespace jengine {
         SDL_DestroyTexture(terrainTx);
 
     }
-
 
 } // jengine

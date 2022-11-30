@@ -16,6 +16,9 @@ public:
 
     virtual void tick() = 0;
 
+    int getXPosition();
+    int getYPosition();
+
     //behöver inte returnera en kopia av recten.
     const SDL_Rect& getRect() const {return rect;}
 
@@ -30,6 +33,7 @@ private:
     Sprite(const Sprite&) = delete;
     //förbjud tilldelning
     const Sprite& operator=(const Sprite&) = delete;
+
 
 };
 }
