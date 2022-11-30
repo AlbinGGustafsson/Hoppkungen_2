@@ -1,7 +1,8 @@
-#include "Background.h"
-#include "Constants.h"
-#include "System.h"
+#include "../include/Background.h"
+#include "../include/Constants.h"
+#include "../include/System.h"
 #include <SDL2/SDL_image.h>
+
 
 
 namespace jengine {
@@ -16,6 +17,10 @@ namespace jengine {
 
     void Background::draw() const {
         SDL_RenderCopy(sys.getRenderer(), bgTx, nullptr, nullptr);
+    }
+
+    void Background::changeBackground(std::string imageFileName) {
+        bgTx = IMG_LoadTexture(sys.getRenderer(), (constants::gResPath + "images/backgrounds/" + imageFileName).c_str());
     }
 
     Background::~Background(){

@@ -39,6 +39,7 @@ void Label::setText(std::string newText){
     SDL_Surface* surface = TTF_RenderText_Solid(sys.getFont(), text.c_str(), {0, 0, 0});
     texture = SDL_CreateTextureFromSurface(sys.getRenderer(), surface);
     SDL_FreeSurface(surface);
+
 }
 
 Label::~Label()

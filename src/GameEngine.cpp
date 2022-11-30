@@ -18,8 +18,7 @@ namespace jengine {
 
 
     void GameEngine::run() {
-        Uint32 tickInterval = 1000 / FPS;
-
+        Uint32 tickInterval = 1000 / constants::FPS;
         bool running = true;
         while (running) {
 
@@ -101,8 +100,6 @@ namespace jengine {
                         if (Terrain *t = dynamic_cast<Terrain *>(sp)) {
                             if (SDL_HasIntersection(&p->getRect(), &t->getRect())) {
 
-                                //std::cout << "px+pw: " << (p->getXPosition() + p->getRect().w) << "tx + 15: " << t->getXPosition() + 15;
-
                                 //Ovanför
                                 if ((p->getYPosition() + p->getRect().h) <= (t->getYPosition() + 15)) {
                                     //std::cout << "py + h: " << (p->getYPosition() + p->getRect().h) << " ty + 16 " << (t->getYPosition() + 16) << std::endl;
@@ -124,7 +121,6 @@ namespace jengine {
                                     }
 
                                 } else {
-                                    //std::cout << "else" << std::endl;
 
                                     //Vänster
                                     if (p->getXPosition() < (t->getXPosition() + t->getRect().w / 2)) {
@@ -138,14 +134,12 @@ namespace jengine {
                                         p->setXVelocity(-(p->getXVelocity() / 2));
                                         p->setXCollision(true);
                                     } else {
-                                        //testar, kanske förhindrar clipping
-                                        p->setYPosition(p->getYPosition() - 25);
+                                        //testar, kanske förhindrar mega-bugg-clipping, verkar som det :)
+                                        //var -25 innan
+                                        p->setYPosition(p->getYPosition() + JUMP_VELOCITY);
                                     }
-
                                 }
-
                             }
-
                         }
                     }
                 }

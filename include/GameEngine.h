@@ -17,8 +17,6 @@ public:
 
     ~GameEngine();
 private:
-    static const int FPS = 60;
-
     std::vector<Sprite*> sprites;
     std::vector<Sprite*> added;
     std::vector<Sprite*> removed;
