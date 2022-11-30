@@ -19,20 +19,15 @@ namespace jengine {
         leftTx = IMG_LoadTexture(sys.getRenderer(), (constants::gResPath + "images/player/left.png").c_str());
         rightTx = IMG_LoadTexture(sys.getRenderer(), (constants::gResPath + "images/player/right.png").c_str());
         downTx = IMG_LoadTexture(sys.getRenderer(), (constants::gResPath + "images/player/down.png").c_str());
-        idelTx = IMG_LoadTexture(sys.getRenderer(), (constants::gResPath + "images/player/idle.png").c_str());
+        idleTx = IMG_LoadTexture(sys.getRenderer(), (constants::gResPath + "images/player/idle.png").c_str());
         walkingSFX = Mix_LoadWAV((constants::gResPath + "sounds/grassFootstep.mp3").c_str());
-        jumpCharge = Mix_LoadWAV((constants::gResPath + "sounds/charge.mp3").c_str());
-        jump = Mix_LoadWAV((constants::gResPath + "sounds/jump.mp3").c_str());
+        jumpChargeSFX = Mix_LoadWAV((constants::gResPath + "sounds/charge.mp3").c_str());
+        jumpSFX = Mix_LoadWAV((constants::gResPath + "sounds/jump.mp3").c_str());
 
-        currentTx = idelTx;
+        currentTx = idleTx;
 
         xVelocity = 0;
         yVelocity = 1;
-
-        jumpChargePlaying = false;
-        chargeJump = false;
-        verticalCounter = 0;
-        heightCounter = 0;
 
     }
 
@@ -92,79 +87,16 @@ namespace jengine {
         xVelocity = x;
     }
 
-    void Player::setFootstepSoundFX(std::string fileName) {
-        walkingSFX = Mix_LoadWAV((constants::gResPath + "sounds/" + fileName).c_str());
-    }
-
     void Player::keyDown(const SDL_Event &event) {
         switch (event.key.keysym.sym) {
             case SDLK_SPACE:
-
-                if (yCollision) {
-                    if (!chargeJump){
-                        chargeJump = true;
-                        std::cout << "charging jump" << std::endl;
-                        heightCounter+=10;
-                    }
-
-                    if (heightCounter < 25){
-                        heightCounter+=0.5;
-                        std::cout << "hc: "  << heightCounter << std::endl;
-                    }else{
-                        std::cout << "max horizontal charge charge" << std::endl;
-                    }
-
-                    currentTx = downTx;
-                    if(!jumpChargePlaying){
-                        Mix_PlayChannel(0, jumpCharge, 0);
-                        jumpChargePlaying = true;
-                    }
-
-                }
-
+                spaceDown();
                 break;
             case SDLK_LEFT:
-
-                if (!chargeJump && yVelocity == 0 && !xCollision){
-                    rect.x -= 20;
-                    currentTx = leftTx;
-                    Mix_PlayChannel(2, walkingSFX, 0);
-                }
-
-                if (chargeJump){
-                    if (verticalCounter == 0){
-                        verticalCounter-=2;
-                        std::cout << "vc: " << verticalCounter <<  std::endl;
-                    }else if (verticalCounter < 10 && verticalCounter > -10){
-                        verticalCounter-=0.5;
-                        std::cout << "vc: " << verticalCounter <<  std::endl;
-                    }else{
-                        std::cout << "max vertical charge" << std::endl;
-                    }
-
-                }
+                leftDown();
                 break;
             case SDLK_RIGHT:
-
-                if (!chargeJump && yVelocity == 0 && !xCollision){
-                    rect.x += 20;
-                    currentTx = rightTx;
-                    Mix_PlayChannel(2, walkingSFX, 0);
-                }
-
-                if (chargeJump){
-
-                    if (verticalCounter == 0){
-                        verticalCounter+=2;
-                        std::cout << "vc: " << verticalCounter <<  std::endl;
-                    }else if (verticalCounter < 10 && verticalCounter > -10){
-                        verticalCounter+=0.5;
-                        std::cout << "vc: " << verticalCounter <<  std::endl;
-                    }else{
-                        std::cout << "max vertical charge" << std::endl;
-                    }
-
-                }
+                rightDown();
                 break;
         }
     }
@@ -172,35 +104,13 @@ namespace jengine {
     void Player::keyUp(const SDL_Event &event) {
         switch (event.key.keysym.sym) {
             case SDLK_SPACE:
-                if (yCollision) {
-                    //man klippar bara 1 pixel nu detta kanske bör ändras
-                    setYPosition(rect.y - 15);
-                    changeYVelocity(static_cast<int>(-heightCounter));
-
-                    chargeJump = false;
-                    jumpChargePlaying = false;
-
-                    changeXVelocity(static_cast<int>(verticalCounter));
-                    verticalCounter = 0;
-                    heightCounter = 0;
-
-                }
-
-                Mix_PlayChannel(0, jump, 0);
+                spaceUp();
                 break;
             case SDLK_LEFT:
-
-                if (!chargeJump){
-                    currentTx = idelTx;
-                }
-
+                leftUp();
                 break;
             case SDLK_RIGHT:
-
-                if (!chargeJump){
-                    currentTx = idelTx;
-                }
-
+                rightUp();
                 break;
         }
     }
@@ -215,17 +125,12 @@ namespace jengine {
 
         if (yVelocity != 0) {
             currentTx = airTx;
-
-            //Resettar en charge när man faller/åker upp.
-            chargeJump = false;
-            verticalCounter = 0;
-            heightCounter = 0;
-            //
-
             rect.x += xVelocity;
 
-        } else if (!(currentTx == leftTx || currentTx == rightTx || currentTx == downTx)) {
-            currentTx = idelTx;
+        }
+        //Återställer till idle när man landar
+        else if (!(currentTx == leftTx || currentTx == rightTx || currentTx == downTx)) {
+            currentTx = idleTx;
         }
 
         rect.y += yVelocity;
@@ -233,12 +138,68 @@ namespace jengine {
 
 
     Player::~Player() {
+        Mix_FreeChunk(jumpChargeSFX);
+        Mix_FreeChunk(jumpSFX);
         Mix_FreeChunk(walkingSFX);
         SDL_DestroyTexture(airTx);
         SDL_DestroyTexture(leftTx);
         SDL_DestroyTexture(rightTx);
         SDL_DestroyTexture(downTx);
-        SDL_DestroyTexture(idelTx);
+        SDL_DestroyTexture(idleTx);
+    }
+
+    void Player::spaceDown() {
+        if (yVelocity == 0){
+            currentTx = downTx;
+        }
+    }
+
+    void Player::spaceUp() {
+
+        if (yVelocity == 0){
+            setYPosition(rect.y - PLAYER_DOWNWARD_VELOCITY_GROWTH);
+            changeYVelocity(-JUMP_VELOCITY);
+            Mix_PlayChannel(JUMP_CHANNEL, jumpSFX, 0);
+        }
+    }
+
+    void Player::leftDown() {
+
+        if (!xCollision){
+            rect.x -= HORIZONTAL_MOVEMENT;
+            currentTx = leftTx;
+
+            if (yVelocity == 0 && Mix_Playing(WALKING_CHANNEL) == 0){
+                Mix_PlayChannel(WALKING_CHANNEL, walkingSFX, 0);
+            }
+        }
+    }
+
+    void Player::rightDown() {
+
+        if (!xCollision){
+            rect.x += HORIZONTAL_MOVEMENT;
+            currentTx = rightTx;
+
+            if (yVelocity == 0 && Mix_Playing(WALKING_CHANNEL) == 0){
+                Mix_PlayChannel(WALKING_CHANNEL, walkingSFX, 0);
+            }
+        }
+    }
+
+
+    void Player::leftUp() {
+        currentTx = idleTx;
+    }
+
+    void Player::rightUp() {
+        currentTx = idleTx;
+    }
+
+    void Player::changePlayerSFXVolume(int volume) {
+        Mix_Volume(JUMP_CHARGE_CHANNEL, volume);
+        Mix_Volume(JUMP_CHANNEL, volume);
+        Mix_Volume(WALKING_CHANNEL, volume);
     }
 
 } // jengine
