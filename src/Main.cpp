@@ -96,8 +96,13 @@ public:
 
 
     void aboveCollision(Player *p) override {
-        CollisionSprite::aboveCollision(p);
-        std::cout << "special collision" << std::endl;
+
+        p->setYCollision(true);
+        p->setYPosition(getRect().y + 10 - p->getRect().h);
+        p->setYVelocity(-p->getYVelocity());
+
+//        CollisionSprite::aboveCollision(p);
+//        std::cout << "special collision" << std::endl;
     }
 
 
