@@ -112,7 +112,7 @@ namespace jengine {
             case SDLK_LEFT:
 
                 if (!chargeJump && yVelocity == 0 && !xCollision){
-                    rect.x -= 30;
+                    rect.x -= 20;
                     currentTx = leftTx;
                 }
 
@@ -132,7 +132,7 @@ namespace jengine {
             case SDLK_RIGHT:
 
                 if (!chargeJump && yVelocity == 0 && !xCollision){
-                    rect.x += 30;
+                    rect.x += 20;
                     currentTx = rightTx;
                 }
 
