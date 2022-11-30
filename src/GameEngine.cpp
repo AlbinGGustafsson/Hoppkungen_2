@@ -97,48 +97,10 @@ namespace jengine {
 
 
                     for (Sprite *sp: sprites) {
-                        if (Terrain *t = dynamic_cast<Terrain *>(sp)) {
-                            if (SDL_HasIntersection(&p->getRect(), &t->getRect())) {
+                        if (CollisionSprite *cs = dynamic_cast<CollisionSprite *>(sp)) {
+                            if (SDL_HasIntersection(&p->getRect(), &cs->getRect())) {
+                                cs->collision(p);
 
-                                //Ovanför
-                                if ((p->getYPosition() + p->getRect().h) <= (t->getYPosition() + 15)) {
-                                    //std::cout << "py + h: " << (p->getYPosition() + p->getRect().h) << " ty + 16 " << (t->getYPosition() + 16) << std::endl;
-
-                                    p->setYCollision(true);
-                                    p->resetYVelocity();
-                                    p->resetXVelocity();
-
-                                    //anti clipping
-                                    p->setYPosition(t->getRect().y + 1 - p->getRect().h);
-                                }
-                                //under
-                                else if (p->getYPosition() >= (t->getYPosition() + t->getRect().h - 25)) {
-
-                                    if (p->getYVelocity() > -5){
-                                        p->setYVelocity(5);
-                                    }else{
-                                        p->setYVelocity(p->getYVelocity() < -10 ? 10 : -p->getYVelocity());
-                                    }
-
-                                } else {
-
-                                    //Vänster
-                                    if (p->getXPosition() < (t->getXPosition() + t->getRect().w / 2)) {
-                                        p->setXPosition(p->getXPosition() - 15);
-                                        p->setXVelocity(-(p->getXVelocity() / 2));
-                                        p->setXCollision(true);
-                                    }
-                                    //höger
-                                    else if (p->getXPosition() > (t->getXPosition() + t->getRect().w / 2)) {
-                                        p->setXPosition(p->getXPosition() + 15);
-                                        p->setXVelocity(-(p->getXVelocity() / 2));
-                                        p->setXCollision(true);
-                                    } else {
-                                        //testar, kanske förhindrar mega-bugg-clipping, verkar som det :)
-                                        //var -25 innan
-                                        p->setYPosition(p->getYPosition() + JUMP_VELOCITY);
-                                    }
-                                }
                             }
                         }
                     }

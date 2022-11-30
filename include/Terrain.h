@@ -1,21 +1,20 @@
 #ifndef TERRAIN_H
 #define TERRAIN_H
-#include "NonEventSprite.h"
 #include <SDL2/SDL.h>
+#include "CollisionSprite.h"
 
 
 namespace jengine {
 
-    class Terrain: public NonEventSprite {
+    class Terrain: public CollisionSprite {
     public:
         static Terrain* getInstance(int x, int y, int w, int h, int blocks);
-        bool isCollidable();
 
         void draw() const;
         void tick();
 
-        int getXPosition();
-        int getYPosition();
+        void collision(Player* p);
+
 
         ~Terrain();
     protected:
@@ -24,8 +23,6 @@ namespace jengine {
     private:
 
         SDL_Texture* terrainTx;
-
-        bool collidable;
     };
 
 } // jengine
