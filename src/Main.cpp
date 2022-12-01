@@ -1,4 +1,5 @@
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include "Label.h"
 #include "Button.h"
 #include "GameEngine.h"
@@ -6,6 +7,8 @@
 #include "Player.h"
 #include "Terrain.h"
 #include "Background.h"
+#include "Amongus.h"
+#include "System.h"
 
 #include <cstdlib>
 #include <iostream>
@@ -137,8 +140,32 @@ public:
 };
 
 
+class TestPlayer: public Player{
+public:
 
-class PlayerDude: public Player{
+    TestPlayer():Player(600, 110, 100, 100){
+        texture = IMG_LoadTexture(sys.getRenderer(), (constants::gResPath + "images/player/air.png").c_str());
+    }
+
+    void draw() const override {
+        SDL_RenderCopy(sys.getRenderer(), texture, nullptr, &rect);
+    }
+
+    void leftDown() override {
+        if (!xCollision){
+            rect.x -= HORIZONTAL_MOVEMENT * 2;
+        }
+    }
+
+private:
+    SDL_Texture* texture;
+
+};
+
+
+
+
+class PlayerDude: public Amongus {
 public:
 
     static const int MAX_PLAYER_HORIZONTAL_CHARGE_VELOCITY = 10;
@@ -155,7 +182,7 @@ public:
     double horizontalCounter;
     double verticalCounter;
 
-    PlayerDude():Player(600, 110, 100, 100) {
+    PlayerDude():Amongus(600, 110, 100, 100) {
         chargingJump = false;
         horizontalCounter = 0;
         verticalCounter = 0;
@@ -363,9 +390,11 @@ int main(int argc, char** argv){
 
     Background* bg = Background::getInstance(0,0,0,0, "bg1.png", "bgMusic1.mp3", 10);
     Background* bg2 = Background::getInstance(0,0,0,0, "bg2.png", "bgMusic2.mp3", 128);
+
     PlayerDude* player = new PlayerDude();
     player->changePlayerSFXVolume(30);
     //Player* player = Player::getInstance(600, 110, 100, 100);
+    //TestPlayer* testPlayer = new TestPlayer();
 
     Terrain* t0 = Terrain::getInstance(-100, 1150 , 1400, 50, 3);
     Terrain* t1 = Terrain::getInstance(380, 900, 200, 50, 3);

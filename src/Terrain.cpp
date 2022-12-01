@@ -29,7 +29,6 @@ namespace jengine {
     }
 
     void Terrain::tick() {
-        SDL_RenderCopy(sys.getRenderer(), terrainTx, nullptr, &rect);
     }
 
     Terrain::~Terrain() {
