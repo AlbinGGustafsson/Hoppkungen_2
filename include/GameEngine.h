@@ -15,6 +15,8 @@ public:
 
     void setLevel(std::vector<Sprite*> level);
 
+    void changeSFXVolume(int volume) const;
+
     ~GameEngine();
 private:
     std::vector<Sprite*> sprites;

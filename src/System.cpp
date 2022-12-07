@@ -3,6 +3,9 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
+
+using namespace constants;
+
 namespace jengine{
 
 System::System(){
@@ -13,7 +16,6 @@ System::System(){
 
     TTF_Init();
     font = TTF_OpenFont((constants::gResPath + "fonts/arial.ttf").c_str(), 36);
-
 
 }
 

@@ -10,9 +10,9 @@ class Label: public NonEventSprite
 public:
     static Label* getInstance(int x, int y, int w, int h, std::string txt);
 
-    void draw() const;
+    void draw() const override;
 
-    void tick();
+    void tick() override;
 
     std::string getText() const;
     void setText(std::string newText);

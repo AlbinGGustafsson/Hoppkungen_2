@@ -10,8 +10,8 @@ namespace jengine {
         static Background* getInstance(int x, int y, int w, int h, std::string imageFileName, std::string soundFileName, int volume);
         ~Background();
 
-        void draw() const;
-        void tick() {};
+        void draw() const override;
+        void tick() override {};
         void setBackground(std::string imageFileName);
         void setBackgroundSound(std::string imageFileName);
         Mix_Chunk* getBackgroundMusic() const;

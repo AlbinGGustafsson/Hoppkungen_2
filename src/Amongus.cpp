@@ -48,7 +48,7 @@ using namespace constants;
             rect.x += xVelocity;
 
         }
-            //Återställer till idle när man landar
+        //Återställer till idle när man landar
         else if (!(currentTx == leftTx || currentTx == rightTx || currentTx == downTx)) {
             currentTx = idleTx;
         }
@@ -69,22 +69,22 @@ using namespace constants;
     }
 
     void Amongus::leftDown() {
-        if (!xCollision){
-            rect.x -= HORIZONTAL_MOVEMENT;
+        if (!getXCollision()){
+            setXPosition(getXPosition() - HORIZONTAL_MOVEMENT);
             currentTx = leftTx;
 
-            if (yVelocity == 0 && Mix_Playing(WALKING_CHANNEL) == 0){
+            if (getYVelocity() == 0 && Mix_Playing(WALKING_CHANNEL) == 0){
                 Mix_PlayChannel(WALKING_CHANNEL, walkingSFX, 0);
             }
         }
     }
 
     void Amongus::rightDown() {
-        if (!xCollision){
-            rect.x += HORIZONTAL_MOVEMENT;
+        if (!getXCollision()){
+            setXPosition(getXPosition() + HORIZONTAL_MOVEMENT);
             currentTx = rightTx;
 
-            if (yVelocity == 0 && Mix_Playing(WALKING_CHANNEL) == 0){
+            if (getYVelocity() == 0 && Mix_Playing(WALKING_CHANNEL) == 0){
                 Mix_PlayChannel(WALKING_CHANNEL, walkingSFX, 0);
             }
         }

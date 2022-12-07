@@ -11,10 +11,10 @@ class Button : public EventSprite
 public:
     static Button* getInstance(int x, int y, int w, int h, std::string txt);
 
-    void mouseDown(const SDL_Event& event);
-    void mouseUp(const SDL_Event& event);
-    void draw() const;
-    void tick();
+    void mouseDown(const SDL_Event& event) override;
+    void mouseUp(const SDL_Event& event) override;
+    void draw() const override;
+    void tick() override;
 
     //lek
     std::string getText() const;

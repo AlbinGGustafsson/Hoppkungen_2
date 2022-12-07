@@ -10,60 +10,8 @@ using namespace constants;
 
 namespace jengine {
 
-    Player::Player(int x, int y, int w, int h) : EventSprite(x, y, w, h) {
-        xVelocity = 0;
-        yVelocity = 1;
-        yCollision = false;
-        xCollision = false;
-    }
+    Player::Player(int x, int y, int w, int h) : EventSprite(x, y, w, h) {}
 
-    void Player::setXCollision(bool collision) {
-        xCollision = collision;
-    }
-
-    void Player::setYCollision(bool collision) {
-        yCollision = collision;
-    }
-
-    void Player::resetYVelocity() {
-        yVelocity = 0;
-    }
-
-    void Player::resetXVelocity(){
-        xVelocity = 0;
-    }
-
-    void Player::changeYVelocity(int y) {
-        yVelocity += y;
-    }
-
-    void Player::changeXVelocity(int x) {
-        xVelocity += x;
-    }
-
-    int Player::getXVelocity() {
-        return xVelocity;
-    }
-
-    int Player::getYVelocity() {
-        return yVelocity;
-    }
-
-    void Player::setXPosition(int x) {
-        rect.x = x;
-
-    }
-
-    void Player::setYPosition(int y) {
-        rect.y = y;
-    }
-
-    void Player::setYVelocity(int y){
-        yVelocity = y;
-    }
-    void Player::setXVelocity(int x){
-        xVelocity = x;
-    }
 
     void Player::keyDown(const SDL_Event &event) {
         switch (event.key.keysym.sym) {
@@ -93,10 +41,6 @@ namespace jengine {
         }
     }
 
-//    void Player::draw() const {
-//        SDL_RenderCopy(sys.getRenderer(), currentTx, nullptr, &rect);
-//    }
-
     void Player::tick() {
 
         if (yVelocity != 0) {
@@ -105,6 +49,13 @@ namespace jengine {
         rect.y += yVelocity;
     }
 
+    void Player::gravity() {
+        if (getYVelocity() < MAX_PLAYER_DOWNWARD_VELOCITY) {
+            changeYVelocity(PLAYER_DOWNWARD_VELOCITY_GROWTH);
+        }
+        setYCollision(false);
+        setXCollision(false);
+    }
 
     void Player::spaceDown() {}
 
@@ -118,16 +69,15 @@ namespace jengine {
 
     void Player::leftDown() {
 
-        if (!xCollision){
-            rect.x -= HORIZONTAL_MOVEMENT;
+        if (!getXCollision()){
+            setXPosition(getXPosition() - HORIZONTAL_MOVEMENT);
         }
     }
 
     void Player::rightDown() {
 
-        if (!xCollision){
-            rect.x += HORIZONTAL_MOVEMENT;
-
+        if (!getXCollision()){
+            setXPosition(getXPosition() + HORIZONTAL_MOVEMENT);
         }
     }
 
@@ -136,11 +86,6 @@ namespace jengine {
 
     void Player::rightUp() {}
 
-    void Player::changePlayerSFXVolume(int volume) {
-        Mix_Volume(JUMP_CHARGE_CHANNEL, volume);
-        Mix_Volume(JUMP_CHANNEL, volume);
-        Mix_Volume(WALKING_CHANNEL, volume);
-    }
 
     Player::~Player() {
 

@@ -3,7 +3,7 @@
 #include <SDL2/SDL.h>
 #include "EventSprite.h"
 #include "Player.h"
-#include "Terrain.h"
+#include "SciFiTerrain.h"
 #include <iostream>
 #include "Background.h"
 #include "Constants.h"
@@ -87,30 +87,21 @@ namespace jengine {
             }
             removed.clear();
 
-            //player collision
-            for (Sprite *s: sprites) {
-                if (Player *p = dynamic_cast<Player *>(s)) {
-
-                    if (p->getYVelocity() < MAX_PLAYER_DOWNWARD_VELOCITY) {
-                        p->changeYVelocity(PLAYER_DOWNWARD_VELOCITY_GROWTH);
-
-                    }
-                    p->setYCollision(false);
-                    p->setXCollision(false);
 
 
-                    for (Sprite *sp: sprites) {
-                        if (CollisionSprite *cs = dynamic_cast<CollisionSprite *>(sp)) {
-                            if (SDL_HasIntersection(&p->getRect(), &cs->getRect())) {
 
-                                cs->collision(p);
+            //anropa alla sprite objekts checkCollision med alla andra sprites
 
-                            }
-                        }
+            for (Sprite *s: sprites){
+
+                s->gravity();
+
+                for (Sprite *s2 : sprites){
+                    if (s != s2){
+                        s->checkCollision(s2);
                     }
                 }
             }
-
 
             for (Sprite *s: sprites) {
                 s->tick();
@@ -149,5 +140,12 @@ namespace jengine {
             }
         }
     }
+
+    void GameEngine::changeSFXVolume(int volume) const{
+        Mix_Volume(JUMP_CHARGE_CHANNEL, volume);
+        Mix_Volume(JUMP_CHANNEL, volume);
+        Mix_Volume(WALKING_CHANNEL, volume);
+    }
+
 }
 
