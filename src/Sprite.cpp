@@ -74,7 +74,11 @@ namespace jengine{
     Sprite::~Sprite(){}
 
 
-
+    void Sprite::checkCollision(Sprite* other) {
+        if (SDL_HasIntersection(&getRect(), &other->getRect())) {
+            other->collision(this);
+        }
+    }
 
 
 }

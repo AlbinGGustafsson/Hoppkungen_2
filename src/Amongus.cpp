@@ -39,13 +39,13 @@ using namespace constants;
     }
 
     void Amongus::draw() const {
-        SDL_RenderCopy(sys.getRenderer(), currentTx, nullptr, &rect);
+        SDL_RenderCopy(sys.getRenderer(), currentTx, nullptr, &getRect());
     }
 
     void Amongus::tick() {
-        if (yVelocity != 0) {
+        if (getYVelocity() != 0) {
             currentTx = airTx;
-            rect.x += xVelocity;
+            setXPosition(getXPosition() + getXVelocity());
 
         }
         //Återställer till idle när man landar
@@ -53,7 +53,7 @@ using namespace constants;
             currentTx = idleTx;
         }
 
-        rect.y += yVelocity;
+        setYPosition(getYPosition() + getYVelocity());
     }
 
     void Amongus::spaceDown() {
@@ -61,8 +61,8 @@ using namespace constants;
     }
 
     void Amongus::spaceUp() {
-        if (yVelocity == 0){
-            setYPosition(rect.y - PLAYER_DOWNWARD_VELOCITY_GROWTH);
+        if (getYVelocity() == 0){
+            setYPosition(getRect().y - PLAYER_DOWNWARD_VELOCITY_GROWTH);
             changeYVelocity(-JUMP_VELOCITY);
             Mix_PlayChannel(JUMP_CHANNEL, jumpSFX, 0);
         }

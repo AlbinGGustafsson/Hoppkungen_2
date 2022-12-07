@@ -43,10 +43,10 @@ namespace jengine {
 
     void Player::tick() {
 
-        if (yVelocity != 0) {
-            rect.x += xVelocity;
+        if (getYVelocity() != 0) {
+            setXPosition(getXPosition() + getXVelocity());
         }
-        rect.y += yVelocity;
+        setYPosition(getYPosition() + getYVelocity());
     }
 
     void Player::gravity() {
@@ -61,8 +61,8 @@ namespace jengine {
 
     void Player::spaceUp() {
 
-        if (yVelocity == 0){
-            setYPosition(rect.y - PLAYER_DOWNWARD_VELOCITY_GROWTH);
+        if (getYVelocity() == 0){
+            setYPosition(getRect().y - PLAYER_DOWNWARD_VELOCITY_GROWTH);
             changeYVelocity(-JUMP_VELOCITY);
         }
     }

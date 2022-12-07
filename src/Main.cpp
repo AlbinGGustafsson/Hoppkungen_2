@@ -348,7 +348,7 @@ public:
             horizontalCounter = 0;
             verticalCounter = 0;
 
-            rect.x += xVelocity;
+            setXPosition(getXPosition() + getXVelocity());
 
             //Återställer texture till idle när man landar
         } else if (!(currentTx == leftTx || currentTx == rightTx || currentTx == downTx)) {
