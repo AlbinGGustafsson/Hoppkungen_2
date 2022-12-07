@@ -125,21 +125,21 @@ public:
     void tick(){
 
         if (moveRight){
-            if (rect.x < 995){
-                rect.x+=3;
+            if (getRect().x < 995){
+                setXPosition(getXPosition() + 3);
             }
 
-            if (rect.x > 995){
+            if (getRect().x > 995){
                 moveRight = false;
             }
         }
 
         if (!moveRight){
 
-            if (rect.x > 5){
-                rect.x-=3;
+            if (getRect().x > 5){
+                setXPosition(getXPosition() - 3);
             }
-            if (rect.x < 5){
+            if (getRect().x < 5){
                 moveRight = true;
             }
 
@@ -329,13 +329,13 @@ public:
         }
 
         //spelaren flyttar till andra sidan när den går utanför till höger
-        if (getXPosition() + rect.w > WINDOW_WIDTH + rect.w/2){
-            setXPosition(-rect.w/2);
+        if (getXPosition() + getRect().w > WINDOW_WIDTH + getRect().w/2){
+            setXPosition(-getRect().w/2);
         }
 
         //spelaren flyttar till andra sidan när den går utanför till vänster
-        if (getXPosition() < -rect.w/2){
-            setXPosition(WINDOW_WIDTH + rect.w/2 - rect.w);
+        if (getXPosition() < -getRect().w/2){
+            setXPosition(WINDOW_WIDTH + getRect().w/2 - getRect().w);
         }
 
         //När man är i luften så sätter den spelarens texture till air och ett hopp återställs.
