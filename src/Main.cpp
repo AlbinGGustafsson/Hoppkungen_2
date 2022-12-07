@@ -1,11 +1,14 @@
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include "Label.h"
 #include "Button.h"
 #include "GameEngine.h"
 #include <string>
 #include "Player.h"
-#include "Terrain.h"
+#include "SciFiTerrain.h"
 #include "Background.h"
+#include "Amongus.h"
+#include "System.h"
 
 #include <cstdlib>
 #include <iostream>
@@ -91,12 +94,21 @@ public:
 };
 
 
-class MovingTerrain: public Terrain{
+class MovingTerrain: public SciFiTerrain{
 public:
 
     bool moveRight = true;
 
-    MovingTerrain():Terrain(900, 800, 200, 50, 3){}
+    MovingTerrain(): SciFiTerrain(900, 800, 200, 50, 3){}
+
+    void collision(Sprite *other) override {
+        Terrain::collision(other);
+
+        if (Terrain* ot = dynamic_cast<Terrain*>(other)){
+            cout << "krock" << endl;
+        }
+
+    }
 
 
     void aboveCollision(Player *p) override {
@@ -105,7 +117,7 @@ public:
         p->setYPosition(getRect().y + 10 - p->getRect().h);
         p->setYVelocity(-p->getYVelocity());
 
-//        CollisionSprite::aboveCollision(p);
+//        Terrain::aboveCollision(p);
 //        std::cout << "special collision" << std::endl;
     }
 
@@ -113,21 +125,21 @@ public:
     void tick(){
 
         if (moveRight){
-            if (rect.x < 995){
-                rect.x+=3;
+            if (getRect().x < 995){
+                setXPosition(getXPosition() + 3);
             }
 
-            if (rect.x > 995){
+            if (getRect().x > 995){
                 moveRight = false;
             }
         }
 
         if (!moveRight){
 
-            if (rect.x > 5){
-                rect.x-=3;
+            if (getRect().x > 5){
+                setXPosition(getXPosition() - 3);
             }
-            if (rect.x < 5){
+            if (getRect().x < 5){
                 moveRight = true;
             }
 
@@ -137,8 +149,30 @@ public:
 };
 
 
+class TestPlayer: public Player{
+public:
 
-class PlayerDude: public Player{
+    TestPlayer():Player(600, 110, 100, 100){
+        texture = IMG_LoadTexture(sys.getRenderer(), (constants::gResPath + "images/player/air.png").c_str());
+    }
+
+    void draw() const override {
+        SDL_RenderCopy(sys.getRenderer(), texture, nullptr, &getRect());
+    }
+
+    void leftDown() override {
+        if (!getXCollision()){
+            setXPosition(getXPosition() - HORIZONTAL_MOVEMENT * 2);
+        }
+    }
+
+private:
+    SDL_Texture* texture;
+
+};
+
+
+class PlayerDude: public Amongus {
 public:
 
     static const int MAX_PLAYER_HORIZONTAL_CHARGE_VELOCITY = 10;
@@ -155,17 +189,17 @@ public:
     double horizontalCounter;
     double verticalCounter;
 
-    PlayerDude():Player(600, 110, 100, 100) {
+    PlayerDude():Amongus(600, 110, 100, 100) {
         chargingJump = false;
         horizontalCounter = 0;
         verticalCounter = 0;
     }
 
 
-    void spaceDown() {
+    void spaceDown() override {
 
         //Börjar ladda ett hopp om man står på en platform.
-        if (yCollision) {
+        if (getYCollision()) {
             if (!chargingJump){
                 chargingJump = true;
                 std::cout << "charging jump" << std::endl;
@@ -187,12 +221,12 @@ public:
         }
     }
 
-    void spaceUp() {
+    void spaceUp() override {
 
         //Om man är på en platform.
         //Utlöser hoppet, sätter x och y hastigheten till det som kalkylerats i space, left, right down.
-        if (yCollision) {
-            setYPosition(rect.y - INITIAL_JUMP_MOVEMENT);
+        if (getYCollision()) {
+            setYPosition(getRect().y - INITIAL_JUMP_MOVEMENT);
             changeYVelocity(static_cast<int>(-verticalCounter));
 
             chargingJump = false;
@@ -207,11 +241,11 @@ public:
 
     }
 
-    void leftDown() {
+    void leftDown() override {
 
         //Spelaren går till vänster, sätter texture och spelar ljudeffekt om man inte är i luften och inte laddar ett hopp och inte har en kollision med en vägg.
-        if (!chargingJump && yVelocity == 0 && !xCollision){
-            rect.x -= HORIZONTAL_MOVEMENT;
+        if (!chargingJump && getYVelocity() == 0 && !getXCollision()){
+            setXPosition(getXPosition() - HORIZONTAL_MOVEMENT);
             currentTx = leftTx;
             if (Mix_Playing(WALKING_CHANNEL) == 0){
                 Mix_PlayChannel(WALKING_CHANNEL, walkingSFX, 0);
@@ -234,11 +268,11 @@ public:
 
     }
 
-    void rightDown() {
+    void rightDown() override {
 
         //Spelaren går till höger, sätter texture och spelar ljudeffekt om man inte är i luften och inte laddar ett hopp och inte har en kollision med en vägg.
-        if (!chargingJump && yVelocity == 0 && !xCollision){
-            rect.x += HORIZONTAL_MOVEMENT;
+        if (!chargingJump && getYVelocity() == 0 && !getXCollision()){
+            setXPosition(getXPosition() + HORIZONTAL_MOVEMENT);
             currentTx = rightTx;
             if (Mix_Playing(WALKING_CHANNEL) == 0){
                 Mix_PlayChannel(WALKING_CHANNEL, walkingSFX, 0);
@@ -260,21 +294,20 @@ public:
         }
     }
 
-    void leftUp() {
+    void leftUp() override {
         if (!chargingJump){
             currentTx = idleTx;
         }
     }
 
-    void rightUp() {
+    void rightUp() override {
         if (!chargingJump){
             currentTx = idleTx;
         }
     }
 
 
-    void tick() {
-
+    void tick() override {
 
         //Byter level när spelaren flyttar upp ovanför fönstret
         if (getYPosition() < 0){
@@ -296,17 +329,17 @@ public:
         }
 
         //spelaren flyttar till andra sidan när den går utanför till höger
-        if (getXPosition() + rect.w > WINDOW_WIDTH + rect.w/2){
-            setXPosition(-rect.w/2);
+        if (getXPosition() + getRect().w > WINDOW_WIDTH + getRect().w/2){
+            setXPosition(-getRect().w/2);
         }
 
         //spelaren flyttar till andra sidan när den går utanför till vänster
-        if (getXPosition() < -rect.w/2){
-            setXPosition(WINDOW_WIDTH + rect.w/2 - rect.w);
+        if (getXPosition() < -getRect().w/2){
+            setXPosition(WINDOW_WIDTH + getRect().w/2 - getRect().w);
         }
 
         //När man är i luften så sätter den spelarens texture till air och ett hopp återställs.
-        if (yVelocity != 0) {
+        if (getYVelocity() != 0) {
             currentTx = airTx;
 
 
@@ -315,17 +348,17 @@ public:
             horizontalCounter = 0;
             verticalCounter = 0;
 
-            rect.x += xVelocity;
+            setXPosition(getXPosition() + getXVelocity());
 
             //Återställer texture till idle när man landar
         } else if (!(currentTx == leftTx || currentTx == rightTx || currentTx == downTx)) {
             currentTx = idleTx;
         }
 
-        rect.y += yVelocity;
+        setYPosition(getYPosition() + getYVelocity());
     }
 
-    int getCurrentLevel(){
+    int getCurrentLevel() const{
         return currentLevel;
     }
 
@@ -363,28 +396,30 @@ int main(int argc, char** argv){
 
     Background* bg = Background::getInstance(0,0,0,0, "bg1.png", "bgMusic1.mp3", 10);
     Background* bg2 = Background::getInstance(0,0,0,0, "bg2.png", "bgMusic2.mp3", 128);
-    PlayerDude* player = new PlayerDude();
-    player->changePlayerSFXVolume(30);
-    //Player* player = Player::getInstance(600, 110, 100, 100);
 
-    Terrain* t0 = Terrain::getInstance(-100, 1150 , 1400, 50, 3);
-    Terrain* t1 = Terrain::getInstance(380, 900, 200, 50, 3);
-    Terrain* t2 = Terrain::getInstance(600, 700, 200, 50, 3);
-    Terrain* t3 = Terrain::getInstance(900, 450, 200, 50, 3);
-    Terrain* t4 = Terrain::getInstance(600, 220, 200, 50, 3);
-    Terrain* t5 = Terrain::getInstance(100, 380, 200, 50, 3);
+    PlayerDude* player = new PlayerDude();
+    ses.changeSFXVolume(30);
+    //Player* player = Player::getInstance(600, 110, 100, 100);
+    //TestPlayer* player = new TestPlayer();
+
+    SciFiTerrain* t0 = SciFiTerrain::getInstance(-100, 1150 , 1400, 50, 3);
+    SciFiTerrain* t1 = SciFiTerrain::getInstance(380, 900, 200, 50, 3);
+    SciFiTerrain* t2 = SciFiTerrain::getInstance(600, 700, 200, 50, 3);
+    SciFiTerrain* t3 = SciFiTerrain::getInstance(900, 450, 200, 50, 3);
+    SciFiTerrain* t4 = SciFiTerrain::getInstance(600, 220, 200, 50, 3);
+    SciFiTerrain* t5 = SciFiTerrain::getInstance(100, 380, 200, 50, 3);
 
     HeightLabel* heightLabel = new HeightLabel(player);
-    //Terrain* t7 = Terrain::getInstance(0, 1200-700, 50, 700, 3);
+    SciFiTerrain* t7 = SciFiTerrain::getInstance(0, 1200-700, 50, 700, 3);
 
-    Terrain* t6 = new MovingTerrain();
+    SciFiTerrain* t6 = new MovingTerrain();
 
-    Terrain* t11 = Terrain::getInstance(333, 1146, 200, 50, 3);
-    Terrain* t12 = Terrain::getInstance(651, 860, 200, 50, 3);
-    Terrain* t13 = Terrain::getInstance(75, 725, 200, 50, 3);
-    Terrain* t14 = Terrain::getInstance(465, 577, 200, 50, 3);
-    Terrain* t15 = Terrain::getInstance(144, 363, 200, 50, 3);
-    Terrain* t16 = Terrain::getInstance(349, 129, 200, 50, 3);
+    SciFiTerrain* t11 = SciFiTerrain::getInstance(333, 1146, 200, 50, 3);
+    SciFiTerrain* t12 = SciFiTerrain::getInstance(651, 860, 200, 50, 3);
+    SciFiTerrain* t13 = SciFiTerrain::getInstance(75, 725, 200, 50, 3);
+    SciFiTerrain* t14 = SciFiTerrain::getInstance(465, 577, 200, 50, 3);
+    SciFiTerrain* t15 = SciFiTerrain::getInstance(144, 363, 200, 50, 3);
+    SciFiTerrain* t16 = SciFiTerrain::getInstance(349, 129, 200, 50, 3);
 
 
 
@@ -396,6 +431,7 @@ int main(int argc, char** argv){
     levels[0].push_back(t4);
     levels[0].push_back(t5);
     levels[0].push_back(t6);
+    levels[0].push_back(t7);
     levels[0].push_back(player);
     levels[0].push_back(heightLabel);
 
@@ -412,38 +448,6 @@ int main(int argc, char** argv){
     levels[2].push_back(bg);
     levels[2].push_back(player);
     levels[2].push_back(heightLabel);
-
-
-
-
-    //Terrain* t2 = Terrain::getInstance(250, 1100, 200, 50, 3);
-
-//    TickLabel* labelTest = new TickLabel();
-//
-//    Button* b1 = new incButton(lbl);
-//    Button* b2 = new decButton(lbl);
-//    Button* b3 = new randomButton(lbl);
-//    auto* b4 = new RemoveButton(labelTest);
-
-//    ses.add(lbl);
-//    ses.add(b1);
-//    ses.add(b2);
-//    ses.add(b3);
-//    ses.add(labelTest);
-//    ses.add(b4);
-
-//    ses.add(bg);
-//    ses.add(player);
-//    ses.add(t0);
-//    ses.add(t1);
-//    ses.add(t2);
-//    ses.add(t3);
-//    ses.add(t4);
-//    ses.add(t5);
-
-//    ses.add(t3);
-//    ses.add(t4);
-//    ses.add(t5);
 
     ses.setLevel(levels[0]);
 
