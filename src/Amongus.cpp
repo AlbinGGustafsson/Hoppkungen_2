@@ -1,9 +1,7 @@
 #include "Amongus.h"
-#include <SDL2/SDL_events.h>
 #include <SDL2/SDL_image.h>
-#include "../include/Constants.h"
-#include "../include/System.h"
-#include <iostream>
+#include "Constants.h"
+#include "System.h"
 #include <SDL2/SDL_mixer.h>
 
 namespace jengine{

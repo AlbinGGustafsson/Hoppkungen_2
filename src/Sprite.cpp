@@ -1,5 +1,4 @@
 #include "Sprite.h"
-#include "Terrain.h"
 
 namespace jengine{
 

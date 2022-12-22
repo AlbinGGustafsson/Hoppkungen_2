@@ -1,6 +1,6 @@
-#include "../include/Background.h"
-#include "../include/Constants.h"
-#include "../include/System.h"
+#include "Background.h"
+#include "Constants.h"
+#include "System.h"
 #include <SDL2/SDL_image.h>
 #include <string>
 

@@ -1,10 +1,6 @@
 #include <SDL2/SDL_events.h>
-#include "../include/Player.h"
-#include <SDL2/SDL_image.h>
-#include "../include/Constants.h"
-#include "../include/System.h"
-#include <iostream>
-#include <SDL2/SDL_mixer.h>
+#include "Player.h"
+
 
 using namespace constants;
 

@@ -2,9 +2,6 @@
 #include "System.h"
 #include <SDL2/SDL.h>
 #include "EventSprite.h"
-#include "Player.h"
-#include "SciFiTerrain.h"
-#include <iostream>
 #include "Background.h"
 #include "Constants.h"
 
