@@ -1,4 +1,4 @@
-#include "NonEventSprite.h"
+#include "jEngine/NonEventSprite.h"
 
 namespace jengine {
 

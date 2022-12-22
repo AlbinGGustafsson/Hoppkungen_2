@@ -1,6 +1,6 @@
 #ifndef AMONGUS_H
 #define AMONGUS_H
-#include "Player.h"
+#include "jEngine/Player.h"
 
 namespace jengine{
 

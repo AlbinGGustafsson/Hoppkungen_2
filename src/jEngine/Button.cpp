@@ -1,5 +1,5 @@
-#include "Button.h"
-#include "System.h"
+#include "jEngine/Button.h"
+#include "jEngine/System.h"
 #include "Constants.h"
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_image.h>

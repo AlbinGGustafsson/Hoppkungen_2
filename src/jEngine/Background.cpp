@@ -1,6 +1,6 @@
-#include "Background.h"
+#include "jEngine/Background.h"
 #include "Constants.h"
-#include "System.h"
+#include "jEngine/System.h"
 #include <SDL2/SDL_image.h>
 #include <string>
 

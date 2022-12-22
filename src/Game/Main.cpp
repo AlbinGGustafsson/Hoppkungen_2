@@ -1,14 +1,14 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include "Label.h"
-#include "Button.h"
-#include "GameEngine.h"
+#include "jEngine/Label.h"
+#include "jEngine/Button.h"
+#include "jEngine/GameEngine.h"
 #include <string>
-#include "Player.h"
-#include "SciFiTerrain.h"
-#include "Background.h"
-#include "Amongus.h"
-#include "System.h"
+#include "jEngine/Player.h"
+#include "Game/SciFiTerrain.h"
+#include "jEngine/Background.h"
+#include "Game/Amongus.h"
+#include "jEngine/System.h"
 
 #include <cstdlib>
 #include <iostream>

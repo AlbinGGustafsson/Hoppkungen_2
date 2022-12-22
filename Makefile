@@ -28,7 +28,7 @@ SRC_FILE = $(SRC_DIR)/main.cpp
 #INCLUDE_PATHS = -Iinclude -I/usr/local/include
 # Windows INCLUDE_PATHS!
 
-INCLUDE_PATHS = -Iinclude -IC:/msys64/mingw64/include
+INCLUDE_PATHS = -Iinclude -IC:/msys64/mingw64/include -IC:/msys64/mingw64/include/Game -IC:/msys64/mingw64/include/jEngine
 
 # BIBLIOTEKSFILER
 # Mac LIBRARY_PATHS!

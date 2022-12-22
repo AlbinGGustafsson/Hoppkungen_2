@@ -1,5 +1,5 @@
-#include "Label.h"
-#include "System.h"
+#include "jEngine/Label.h"
+#include "jEngine/System.h"
 #include <SDL2/SDL_ttf.h>
 
 namespace jengine{

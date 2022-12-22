@@ -1,8 +1,8 @@
-#include "GameEngine.h"
-#include "System.h"
+#include "jEngine/GameEngine.h"
+#include "jEngine/System.h"
 #include <SDL2/SDL.h>
-#include "EventSprite.h"
-#include "Background.h"
+#include "jEngine/EventSprite.h"
+#include "jEngine/Background.h"
 #include "Constants.h"
 
 using namespace constants;

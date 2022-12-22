@@ -1,4 +1,4 @@
-#include "Sprite.h"
+#include "jEngine/Sprite.h"
 
 namespace jengine{
 

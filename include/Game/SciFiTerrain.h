@@ -1,7 +1,7 @@
 #ifndef TERRAIN_H
 #define TERRAIN_H
 #include <SDL2/SDL.h>
-#include "Terrain.h"
+#include "jEngine/Terrain.h"
 
 
 namespace jengine {

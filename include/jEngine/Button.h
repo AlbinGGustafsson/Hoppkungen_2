@@ -3,7 +3,7 @@
 #include <string>
 #include "Sprite.h"
 #include <SDL2/SDL.h>
-#include <EventSprite.h>
+#include "EventSprite.h"
 
 namespace jengine{
 class Button : public EventSprite
