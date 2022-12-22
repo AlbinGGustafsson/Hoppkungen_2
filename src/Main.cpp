@@ -380,10 +380,16 @@ public:
 };
 
 
+void doSomething3(){
+        cout << "c" << endl;
+}
 
 
 int main(int argc, char** argv){
 //    Label* lbl = Label::getInstance(400, 100, 200, 70, "0");
+
+    ses.addHotkey(doSomething3, SDLK_c);
+
 
     std::vector<Sprite*> level1;
     std::vector<Sprite*> level2;

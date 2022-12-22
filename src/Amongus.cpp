@@ -71,6 +71,7 @@ using namespace constants;
     void Amongus::leftDown() {
         if (!getXCollision()){
             setXPosition(getXPosition() - HORIZONTAL_MOVEMENT);
+
             currentTx = leftTx;
 
             if (getYVelocity() == 0 && Mix_Playing(WALKING_CHANNEL) == 0){
@@ -101,4 +102,5 @@ using namespace constants;
     Amongus *Amongus::getInstance(int x, int y, int w, int h) {
         return new Amongus(x, y, w, h);
     }
+
 }

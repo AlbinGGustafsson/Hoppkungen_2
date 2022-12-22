@@ -56,6 +56,7 @@ namespace jengine {
                         for (Sprite *s: sprites) {
                             if (auto e = dynamic_cast<EventSprite *>(s)) {
                                 e->keyDown(event);
+                                hotkey(event);
                             }
                         }
                         break;
@@ -88,14 +89,9 @@ namespace jengine {
             removed.clear();
 
 
-
-
             //anropa alla sprite objekts checkCollision med alla andra sprites
-
             for (Sprite *s: sprites){
-
                 s->gravity();
-
                 for (Sprite *s2 : sprites){
                     if (s != s2){
                         s->checkCollision(s2);
@@ -106,6 +102,9 @@ namespace jengine {
             for (Sprite *s: sprites) {
                 s->tick();
             }
+
+
+
 
             SDL_SetRenderDrawColor(sys.getRenderer(), 255, 255, 255, 255);
             SDL_RenderClear(sys.getRenderer());
@@ -147,5 +146,17 @@ namespace jengine {
         Mix_Volume(WALKING_CHANNEL, volume);
     }
 
+
+    void GameEngine::hotkey(SDL_Event& event) {
+        for (auto entry : hotkeyFunctionMap){
+            if (event.key.keysym.sym == entry.first){
+                entry.second();
+            }
+        }
+    }
+
+    void GameEngine::addHotkey(hotkeyFunction f, SDL_Keycode k) {
+        hotkeyFunctionMap.insert(std::make_pair(k, f));
+    }
 }
 
