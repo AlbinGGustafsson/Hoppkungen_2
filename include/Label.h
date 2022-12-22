@@ -16,16 +16,19 @@ public:
 
     std::string getText() const;
     void setText(std::string newText);
-    
+
+    SDL_Texture *getTexture() const;
+
+    void setTexture(SDL_Texture *texture);
+
     ~Label();
 
 protected:
     Label(int x, int y, int w, int h, std::string txt);
-    SDL_Texture* texture;
 
 private:
     std::string text;
-
+    SDL_Texture* texture;
 };
 }
 

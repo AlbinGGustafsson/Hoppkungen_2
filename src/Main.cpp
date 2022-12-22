@@ -205,7 +205,7 @@ public:
                 std::cout << "charging jump" << std::endl;
                 verticalCounter+=INITIAL_VERTICAL_CHARGE_VELOCITY;
 
-                Mix_PlayChannel(JUMP_CHARGE_CHANNEL, jumpChargeSFX, 0);
+                Mix_PlayChannel(JUMP_CHARGE_CHANNEL, getJumpChargeSfx(), 0);
             }
 
             //Om man fortsätter hålla in space ökar laddningen av hoppet.
@@ -216,7 +216,7 @@ public:
                 std::cout << "max vertical charge charge" << std::endl;
             }
 
-            currentTx = downTx;
+            setCurrentTx(getDownTx());
 
         }
     }
@@ -236,7 +236,7 @@ public:
             verticalCounter = 0;
 
             Mix_HaltChannel(JUMP_CHARGE_CHANNEL);
-            Mix_PlayChannel(JUMP_CHANNEL, jumpSFX, 0);
+            Mix_PlayChannel(JUMP_CHANNEL, getJumpSfx(), 0);
         }
 
     }
@@ -246,9 +246,9 @@ public:
         //Spelaren går till vänster, sätter texture och spelar ljudeffekt om man inte är i luften och inte laddar ett hopp och inte har en kollision med en vägg.
         if (!chargingJump && getYVelocity() == 0 && !getXCollision()){
             setXPosition(getXPosition() - HORIZONTAL_MOVEMENT);
-            currentTx = leftTx;
+            setCurrentTx(getLeftTx());
             if (Mix_Playing(WALKING_CHANNEL) == 0){
-                Mix_PlayChannel(WALKING_CHANNEL, walkingSFX, 0);
+                Mix_PlayChannel(WALKING_CHANNEL, getWalkingSfx(), 0);
             }
         }
 
@@ -273,9 +273,9 @@ public:
         //Spelaren går till höger, sätter texture och spelar ljudeffekt om man inte är i luften och inte laddar ett hopp och inte har en kollision med en vägg.
         if (!chargingJump && getYVelocity() == 0 && !getXCollision()){
             setXPosition(getXPosition() + HORIZONTAL_MOVEMENT);
-            currentTx = rightTx;
+            setCurrentTx(getRightTx());
             if (Mix_Playing(WALKING_CHANNEL) == 0){
-                Mix_PlayChannel(WALKING_CHANNEL, walkingSFX, 0);
+                Mix_PlayChannel(WALKING_CHANNEL, getWalkingSfx(), 0);
             }
         }
 
@@ -296,13 +296,13 @@ public:
 
     void leftUp() override {
         if (!chargingJump){
-            currentTx = idleTx;
+            setCurrentTx(getIdleTx());
         }
     }
 
     void rightUp() override {
         if (!chargingJump){
-            currentTx = idleTx;
+            setCurrentTx(getIdleTx());
         }
     }
 
@@ -340,7 +340,7 @@ public:
 
         //När man är i luften så sätter den spelarens texture till air och ett hopp återställs.
         if (getYVelocity() != 0) {
-            currentTx = airTx;
+            setCurrentTx(getAirTx());
 
 
             Mix_HaltChannel(JUMP_CHARGE_CHANNEL);
@@ -351,8 +351,8 @@ public:
             setXPosition(getXPosition() + getXVelocity());
 
             //Återställer texture till idle när man landar
-        } else if (!(currentTx == leftTx || currentTx == rightTx || currentTx == downTx)) {
-            currentTx = idleTx;
+        } else if (!(getCurrentTx() == getLeftTx() || getCurrentTx() == getRightTx() || getCurrentTx() == getDownTx())) {
+            setCurrentTx(getIdleTx());
         }
 
         setYPosition(getYPosition() + getYVelocity());

@@ -16,10 +16,8 @@ public:
     void draw() const override;
     void tick() override;
 
-    //lek
     std::string getText() const;
     void setText(std::string newText);
-    //lek
 
     virtual void perform(Button* source) {};
 

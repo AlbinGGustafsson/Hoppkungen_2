@@ -103,4 +103,63 @@ using namespace constants;
         return new Amongus(x, y, w, h);
     }
 
+    SDL_Texture *Amongus::getAirTx() const {
+        return airTx;
+    }
+
+    SDL_Texture *Amongus::getLeftTx() const {
+        return leftTx;
+    }
+
+    SDL_Texture *Amongus::getRightTx() const {
+        return rightTx;
+    }
+
+    SDL_Texture *Amongus::getDownTx() const {
+        return downTx;
+    }
+
+    SDL_Texture *Amongus::getIdleTx() const {
+        return idleTx;
+    }
+
+    SDL_Texture *Amongus::getCurrentTx() const {
+        return currentTx;
+    }
+
+    Mix_Chunk *Amongus::getWalkingSfx() const {
+        return walkingSFX;
+    }
+
+    Mix_Chunk *Amongus::getJumpChargeSfx() const {
+        return jumpChargeSFX;
+    }
+
+    Mix_Chunk *Amongus::getJumpSfx() const {
+        return jumpSFX;
+    }
+
+    void Amongus::setAirTx(SDL_Texture *airTx) {
+        Amongus::airTx = airTx;
+    }
+
+    void Amongus::setLeftTx(SDL_Texture *leftTx) {
+        Amongus::leftTx = leftTx;
+    }
+
+    void Amongus::setRightTx(SDL_Texture *rightTx) {
+        Amongus::rightTx = rightTx;
+    }
+
+    void Amongus::setDownTx(SDL_Texture *downTx) {
+        Amongus::downTx = downTx;
+    }
+
+    void Amongus::setIdleTx(SDL_Texture *idleTx) {
+        Amongus::idleTx = idleTx;
+    }
+
+    void Amongus::setCurrentTx(SDL_Texture *currentTx) {
+        Amongus::currentTx = currentTx;
+    }
 }
