@@ -17,7 +17,9 @@ CC = g++
 COMPILER_FLAGS = -std=c++17 -Wall -O0 -g
 
 # ALLA filer med filändelsen .cpp i foldern SRC_DIR
-SRC_FILES = $(wildcard $(SRC_DIR)/*.cpp)
+//SRC_FILES = $(wildcard $(SRC_DIR)/*.cpp)
+SRC_FILES_GAME = $(wildcard $(SRC_DIR)/Game/*.cpp)
+SRC_FILES_ENGINE = $(wildcard $(SRC_DIR)/jEngine/*.cpp)
 
 SRC_FILE = $(SRC_DIR)/main.cpp
 
@@ -44,4 +46,4 @@ LINKER_FLAGS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf
 
 all:
 #	$(CC) $(COMPILER_FLAGS) -Iinclude $(SRC_FILES) -o $(BUILD_DIR)/$(OBJ_NAME)
-	$(CC) $(COMPILER_FLAGS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(SRC_FILES) $(LINKER_FLAGS) -o $(BUILD_DIR)/$(OBJ_NAME)
+	$(CC) $(COMPILER_FLAGS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(SRC_FILES_GAME) $(SRC_FILES_ENGINE) $(LINKER_FLAGS) -o $(BUILD_DIR)/$(OBJ_NAME)
