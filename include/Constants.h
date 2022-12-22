@@ -26,6 +26,9 @@ namespace constants
     static const int JUMP_VELOCITY = 30;
     static const int HORIZONTAL_MOVEMENT = 20;
 
+
+    static const int WINDOW_HEIGHT = 1000;
+    static const int WINDOW_WIDTH = 1200;
 }
 
 #endif

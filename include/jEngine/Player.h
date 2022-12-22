@@ -10,6 +10,10 @@ namespace jengine {
         void keyUp(const SDL_Event &event) override;
         void tick() override;
         void gravity() override;
+        ~Player();
+
+    protected:
+        Player(int x, int y, int w, int h);
 
         virtual void spaceDown();
         virtual void spaceUp();
@@ -18,12 +22,8 @@ namespace jengine {
         virtual void leftUp();
         virtual void rightUp();
 
-        ~Player();
-
-    protected:
-        Player(int x, int y, int w, int h);
-
     private:
+
 
     };
 

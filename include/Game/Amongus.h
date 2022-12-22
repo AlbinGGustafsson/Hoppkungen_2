@@ -14,13 +14,6 @@ namespace jengine{
         void draw() const override;
         void tick() override;
 
-        void spaceDown() override;
-        void spaceUp() override;
-        void leftDown() override;
-        void rightDown() override;
-        void leftUp() override;
-        void rightUp() override;
-
         SDL_Texture *getAirTx() const;
         SDL_Texture *getLeftTx() const;
         SDL_Texture *getRightTx() const;
@@ -41,7 +34,16 @@ namespace jengine{
 
     protected:
         Amongus(int x, int y, int w, int h);
+
+        void spaceDown() override;
+        void spaceUp() override;
+        void leftDown() override;
+        void rightDown() override;
+        void leftUp() override;
+        void rightUp() override;
+
     private:
+
         //InAirImage
         SDL_Texture* airTx;
         //WalkLeftImage
