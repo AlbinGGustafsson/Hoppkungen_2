@@ -6,16 +6,16 @@
 
 namespace jengine {
 
-    class SciFiTerrain: public Terrain {
+    class StoneTerrain: public Terrain {
     public:
-        static SciFiTerrain* getInstance(int x, int y, int w, int h, int blocks);
+        static StoneTerrain* getInstance(int x, int y, int w, int h);
 
         void draw() const override;
         void tick() override;
 
-        ~SciFiTerrain();
+        ~StoneTerrain();
     protected:
-        SciFiTerrain(int x, int y, int w, int h, int blocks);
+        StoneTerrain(int x, int y, int w, int h);
 
     private:
 

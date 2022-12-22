@@ -3,7 +3,7 @@
 #include "jEngine/GameEngine.h"
 #include <string>
 #include "jEngine/Player.h"
-#include "Game/SciFiTerrain.h"
+#include "Game/StoneTerrain.h"
 #include "jEngine/Background.h"
 #include "Game/Amongus.h"
 
@@ -16,11 +16,11 @@ using namespace constants;
 GameEngine ses;
 std::vector<std::vector<Sprite *>> levels;
 
-class MovingSciFiTerrain : public SciFiTerrain {
+class MovingStoneTerrain : public StoneTerrain {
 public:
 
-    static MovingSciFiTerrain* getInstance(int x, int y, int w, int h, int n){
-        return new MovingSciFiTerrain(x, y, w, h, n);
+    static MovingStoneTerrain* getInstance(int x, int y, int w, int h){
+        return new MovingStoneTerrain(x, y, w, h);
     }
 
     void collision(Sprite *other) override {
@@ -61,7 +61,7 @@ public:
     }
 
 protected:
-    MovingSciFiTerrain(int x, int y, int w, int h, int n) : SciFiTerrain(x, y, w, h, n) {}
+    MovingStoneTerrain(int x, int y, int w, int h) : StoneTerrain(x, y, w, h) {}
 private:
 
     bool moveRight = true;
@@ -303,34 +303,45 @@ int main(int argc, char **argv) {
     HoppKungen *player = HoppKungen::getInstance(600, 110, 100, 100);
     ses.changeSFXVolume(30);
 
-    SciFiTerrain *t0 = SciFiTerrain::getInstance(-100, 1150, 1400, 50, 3);
-    SciFiTerrain *t1 = SciFiTerrain::getInstance(380, 900, 200, 50, 3);
-    SciFiTerrain *t2 = SciFiTerrain::getInstance(600, 700, 200, 50, 3);
-    SciFiTerrain *t3 = SciFiTerrain::getInstance(900, 450, 200, 50, 3);
-    SciFiTerrain *t4 = SciFiTerrain::getInstance(600, 220, 200, 50, 3);
-    SciFiTerrain *t5 = SciFiTerrain::getInstance(100, 380, 200, 50, 3);
+
+    //StoneTerrain *t0 = StoneTerrain::getInstance(-100, 1150, 1400, 50);
+    StoneTerrain *t1 = StoneTerrain::getInstance(380, 900, 200, 50);
+    StoneTerrain *t2 = StoneTerrain::getInstance(600, 700, 200, 50);
+    StoneTerrain *t3 = StoneTerrain::getInstance(900, 450, 200, 50);
+    StoneTerrain *t4 = StoneTerrain::getInstance(600, 220, 200, 50);
+    StoneTerrain *t5 = StoneTerrain::getInstance(100, 380, 200, 50);
 
     HeightLabel *heightLabel = HeightLabel::getInstance(50,50,50,30, player);
-    SciFiTerrain *t7 = SciFiTerrain::getInstance(0, 1200 - 700, 50, 700, 3);
-    SciFiTerrain *t6 = MovingSciFiTerrain::getInstance(900, 800, 200, 50, 3);
+    StoneTerrain *t6 = MovingStoneTerrain::getInstance(900, 800, 200, 50);
 
-    SciFiTerrain *t11 = SciFiTerrain::getInstance(333, 1146, 200, 50, 3);
-    SciFiTerrain *t12 = SciFiTerrain::getInstance(651, 860, 200, 50, 3);
-    SciFiTerrain *t13 = SciFiTerrain::getInstance(75, 725, 200, 50, 3);
-    SciFiTerrain *t14 = SciFiTerrain::getInstance(465, 577, 200, 50, 3);
-    SciFiTerrain *t15 = SciFiTerrain::getInstance(144, 363, 200, 50, 3);
-    SciFiTerrain *t16 = SciFiTerrain::getInstance(349, 129, 200, 50, 3);
+    StoneTerrain *t7 = StoneTerrain::getInstance(-100, 950, 320, 70);
+    StoneTerrain *t8 = StoneTerrain::getInstance(150, 950, 320, 70);
+    StoneTerrain *t9 = StoneTerrain::getInstance(400, 950, 320, 70);
+    StoneTerrain *t10 = StoneTerrain::getInstance(650, 950, 320, 70);
+    StoneTerrain *t100 = StoneTerrain::getInstance(900, 950, 320, 70);
+
+    StoneTerrain *t11 = StoneTerrain::getInstance(333, 950, 200, 50);
+    StoneTerrain *t12 = StoneTerrain::getInstance(651, 860, 200, 50);
+    StoneTerrain *t13 = StoneTerrain::getInstance(75, 725, 200, 50);
+    StoneTerrain *t14 = StoneTerrain::getInstance(465, 577, 200, 50);
+    StoneTerrain *t15 = StoneTerrain::getInstance(144, 363, 200, 50);
+    StoneTerrain *t16 = StoneTerrain::getInstance(349, 129, 200, 50);
 
 
     levels[0].push_back(bg);
-    levels[0].push_back(t0);
+    levels[0].push_back(t7);
+    levels[0].push_back(t8);
+    levels[0].push_back(t9);
+    levels[0].push_back(t10);
+    levels[0].push_back(t100);
+
+    //levels[0].push_back(t0);
     levels[0].push_back(t1);
     levels[0].push_back(t2);
     levels[0].push_back(t3);
     levels[0].push_back(t4);
     levels[0].push_back(t5);
     levels[0].push_back(t6);
-    levels[0].push_back(t7);
     levels[0].push_back(player);
     levels[0].push_back(heightLabel);
 

@@ -10,7 +10,7 @@ namespace jengine{
 System::System(){
     SDL_Init(SDL_INIT_EVERYTHING);
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096);
-    window = SDL_CreateWindow("Jengine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1200, 1200, 0);
+    window = SDL_CreateWindow("Jengine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, 0);
     renderer = SDL_CreateRenderer(window, -1, 0);
 
     TTF_Init();
