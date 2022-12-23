@@ -29,6 +29,8 @@ private:
     std::vector<Sprite*> sprites;
     std::vector<Sprite*> added;
     std::vector<Sprite*> removed;
+
+    std::unordered_map<SDL_Keycode, hotkeyFunction> hotkeyFunctionMap;
 };
 
 } // namespace cwing
