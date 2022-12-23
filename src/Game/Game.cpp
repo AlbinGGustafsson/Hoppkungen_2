@@ -5,7 +5,7 @@
 #include "jEngine/Player.h"
 #include "Game/StoneTerrain.h"
 #include "jEngine/Background.h"
-#include "Game/Amongus.h"
+#include "Game/Hoppkung.h"
 
 #include <iostream>
 
@@ -67,207 +67,11 @@ private:
     bool moveRight = true;
 };
 
-class HoppKungen : public Amongus {
-public:
-
-    static HoppKungen* getInstance(int x, int y, int w, int h) {
-        return new HoppKungen(x, y, w, h);
-    }
-
-    void spaceDown() override {
-
-        //Börjar ladda ett hopp om man står på en platform.
-        if (getYCollision()) {
-            if (!chargingJump) {
-                chargingJump = true;
-                std::cout << "charging jump" << std::endl;
-                verticalCounter += INITIAL_VERTICAL_CHARGE_VELOCITY;
-
-                Mix_PlayChannel(JUMP_CHARGE_CHANNEL, getJumpChargeSfx(), 0);
-            }
-
-            //Om man fortsätter hålla in space ökar laddningen av hoppet.
-            if (verticalCounter < MAX_PLAYER_VERTICAL_CHARGE_VELOCITY) {
-                verticalCounter += PLAYER_VERTICAL_CHARGE_GROWTH;
-                std::cout << "hc: " << verticalCounter << std::endl;
-            } else {
-                std::cout << "max vertical charge charge" << std::endl;
-            }
-
-            setCurrentTx(getDownTx());
-
-        }
-    }
-
-    void spaceUp() override {
-
-        //Om man är på en platform.
-        //Utlöser hoppet, sätter x och y hastigheten till det som kalkylerats i space, left, right down.
-        if (getYCollision()) {
-            setYPosition(getRect().y - INITIAL_JUMP_MOVEMENT);
-            changeYVelocity(static_cast<int>(-verticalCounter));
-
-            chargingJump = false;
-
-            changeXVelocity(static_cast<int>(horizontalCounter));
-            horizontalCounter = 0;
-            verticalCounter = 0;
-
-            Mix_HaltChannel(JUMP_CHARGE_CHANNEL);
-            Mix_PlayChannel(JUMP_CHANNEL, getJumpSfx(), 0);
-        }
-
-    }
-
-    void leftDown() override {
-
-        //Spelaren går till vänster, sätter texture och spelar ljudeffekt om man inte är i luften och inte laddar ett hopp och inte har en kollision med en vägg.
-        if (!chargingJump && getYVelocity() == 0 && !getXCollision()) {
-            setXPosition(getXPosition() - HORIZONTAL_MOVEMENT);
-            setCurrentTx(getLeftTx());
-            if (Mix_Playing(WALKING_CHANNEL) == 0) {
-                Mix_PlayChannel(WALKING_CHANNEL, getWalkingSfx(), 0);
-            }
-        }
-
-        //Logik för att kalkylera hur långt vänster ett hopp ska ske
-        if (chargingJump) {
-            if (horizontalCounter == 0) {
-                horizontalCounter -= INITIAL_HORIZONTAL_CHARGE_VELOCITY;
-                std::cout << "vc: " << horizontalCounter << std::endl;
-            } else if (horizontalCounter < MAX_PLAYER_HORIZONTAL_CHARGE_VELOCITY &&
-                       horizontalCounter > -MAX_PLAYER_HORIZONTAL_CHARGE_VELOCITY) {
-                horizontalCounter -= PLAYER_HORIZONTAL_CHARGE_GROWTH;
-                std::cout << "vc: " << horizontalCounter << std::endl;
-            } else {
-                std::cout << "max horizontal charge" << std::endl;
-            }
-
-        }
-
-    }
-
-    void rightDown() override {
-
-        //Spelaren går till höger, sätter texture och spelar ljudeffekt om man inte är i luften och inte laddar ett hopp och inte har en kollision med en vägg.
-        if (!chargingJump && getYVelocity() == 0 && !getXCollision()) {
-            setXPosition(getXPosition() + HORIZONTAL_MOVEMENT);
-            setCurrentTx(getRightTx());
-            if (Mix_Playing(WALKING_CHANNEL) == 0) {
-                Mix_PlayChannel(WALKING_CHANNEL, getWalkingSfx(), 0);
-            }
-        }
-
-
-        //Logik för att kalkylera hur långt höger ett hopp ska ske
-        if (chargingJump) {
-            if (horizontalCounter == 0) {
-                horizontalCounter += INITIAL_HORIZONTAL_CHARGE_VELOCITY;
-                std::cout << "vc: " << horizontalCounter << std::endl;
-            } else if (horizontalCounter < MAX_PLAYER_HORIZONTAL_CHARGE_VELOCITY &&
-                       horizontalCounter > -MAX_PLAYER_HORIZONTAL_CHARGE_VELOCITY) {
-                horizontalCounter += PLAYER_HORIZONTAL_CHARGE_GROWTH;
-                std::cout << "vc: " << horizontalCounter << std::endl;
-            } else {
-                std::cout << "max horizontal charge" << std::endl;
-            }
-        }
-    }
-
-    void leftUp() override {
-        if (!chargingJump) {
-            setCurrentTx(getIdleTx());
-        }
-    }
-
-    void rightUp() override {
-        if (!chargingJump) {
-            setCurrentTx(getIdleTx());
-        }
-    }
-
-
-    void tick() override {
-
-        //Byter level när spelaren flyttar upp ovanför fönstret
-        if (getYPosition() < 0) {
-            if ((currentLevel + 1) < static_cast<int>(levels.size())) {
-                ses.setLevel(levels[currentLevel + 1]);
-                currentLevel++;
-                setYPosition(WINDOW_HEIGHT);
-            }
-        }
-
-        //Byter level när spelaren flyttar ned under fönstret
-        if (getYPosition() > WINDOW_HEIGHT) {
-            if (currentLevel - 1 >= 0) {
-                ses.setLevel(levels[currentLevel - 1]);
-                currentLevel--;
-                setYPosition(0);
-            }
-
-        }
-
-        //spelaren flyttar till andra sidan när den går utanför till höger
-        if (getXPosition() + getRect().w > WINDOW_WIDTH + getRect().w / 2) {
-            setXPosition(-getRect().w / 2);
-        }
-
-        //spelaren flyttar till andra sidan när den går utanför till vänster
-        if (getXPosition() < -getRect().w / 2) {
-            setXPosition(WINDOW_WIDTH + getRect().w / 2 - getRect().w);
-        }
-
-        //När man är i luften så sätter den spelarens texture till air och ett hopp återställs.
-        if (getYVelocity() != 0) {
-            setCurrentTx(getAirTx());
-
-
-            Mix_HaltChannel(JUMP_CHARGE_CHANNEL);
-            chargingJump = false;
-            horizontalCounter = 0;
-            verticalCounter = 0;
-
-            setXPosition(getXPosition() + getXVelocity());
-
-            //Återställer texture till idle när man landar
-        } else if (!(getCurrentTx() == getLeftTx() || getCurrentTx() == getRightTx() ||
-                     getCurrentTx() == getDownTx())) {
-            setCurrentTx(getIdleTx());
-        }
-
-        setYPosition(getYPosition() + getYVelocity());
-    }
-
-    int getCurrentLevel() const {
-        return currentLevel;
-    }
-
-protected:
-    HoppKungen(int x, int y, int w, int h) : Amongus(x, y, w, h), chargingJump(false), horizontalCounter(0), verticalCounter(0) {}
-
-private:
-    static const int MAX_PLAYER_HORIZONTAL_CHARGE_VELOCITY = 10;
-    static const int INITIAL_HORIZONTAL_CHARGE_VELOCITY = 2;
-    static const int INITIAL_VERTICAL_CHARGE_VELOCITY = 10;
-    static const int INITIAL_JUMP_MOVEMENT = 15;
-    static const int MAX_PLAYER_VERTICAL_CHARGE_VELOCITY = 25;
-    constexpr static const double PLAYER_HORIZONTAL_CHARGE_GROWTH = 0.5;
-    constexpr static const double PLAYER_VERTICAL_CHARGE_GROWTH = 0.5;
-    static const int HORIZONTAL_MOVEMENT = 20;
-
-    int currentLevel = 0;
-    bool chargingJump;
-    double horizontalCounter;
-    double verticalCounter;
-
-};
-
 
 class HeightLabel : public Label {
 public:
 
-    static HeightLabel* getInstance(int x, int y, int w, int h, HoppKungen* p){
+    static HeightLabel* getInstance(int x, int y, int w, int h, HoppKung* p){
         return new HeightLabel(x, y, w, h, p);
     }
 
@@ -278,10 +82,10 @@ public:
     }
 
 protected:
-    HeightLabel(int x, int y, int w, int h, HoppKungen *p) : Label(x, y, w, h, ""), player(p) {}
+    HeightLabel(int x, int y, int w, int h, HoppKung *p) : Label(x, y, w, h, ""), player(p) {}
 
 private:
-    HoppKungen *player;
+    HoppKung *player;
 
 };
 
@@ -300,7 +104,9 @@ int main(int argc, char **argv) {
     Background *bg = Background::getInstance(0, 0, 0, 0, "bg1.png", "bgMusic1.mp3", 10);
     Background *bg2 = Background::getInstance(0, 0, 0, 0, "bg2.png", "bgMusic2.mp3", 128);
 
-    HoppKungen *player = HoppKungen::getInstance(600, 110, 100, 100);
+    //HoppKungen *player = HoppKungen::getInstance(600, 110, 100, 100);
+    HoppKung *player = HoppKung::getInstance(600, 110, 100, 100, levels, ses);
+
     ses.changeSFXVolume(30);
 
 
