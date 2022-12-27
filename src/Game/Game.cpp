@@ -100,8 +100,6 @@ public:
     void gravity() override {
     }
 
-
-
     void spaceDown() override {}
 
     void spaceUp() override {}
