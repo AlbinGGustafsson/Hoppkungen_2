@@ -31,11 +31,11 @@ public:
         }
     }
 
-    void aboveCollision(Player *p) override {
-        p->setYCollision(true);
-        p->setYPosition(getRect().y + 10 - p->getRect().h);
-        p->setYVelocity(-p->getYVelocity());
-    }
+//    void aboveCollision(Player *p) override {
+//        p->setYCollision(true);
+//        p->setYPosition(getRect().y + 10 - p->getRect().h);
+//        p->setYVelocity(-p->getYVelocity());
+//    }
 
     void tick() {
         if (moveRight) {
@@ -77,8 +77,8 @@ public:
 
     void tick() {
 
-        int height = player->getCurrentLevel() * WINDOW_HEIGHT + (1200 - player->getYPosition());
-        setText(to_string(height));
+        int height = player->getCurrentLevel() * WINDOW_HEIGHT + (WINDOW_HEIGHT - player->getYPosition() - PLAYER_HEIGHT);
+        setText("Level: " + to_string(player->getCurrentLevel()) + " Height: " + to_string(height));
     }
 
 protected:
@@ -153,29 +153,26 @@ int main(int argc, char **argv) {
     Background *bg4 = Background::getInstance(0, 0, 0, 0, "/levels/level4.png", "/levels/Spacetime.mp3", 128);
 
 
-    FlyingDude *player = new FlyingDude(600, 110, 100, 100, levels, ses);
-    //HoppKung *player = HoppKung::getInstance(600, 110, 100, 100, levels, ses);
+//    FlyingDude *player = new FlyingDude(600, 110, 100, PLAYER_HEIGHT, levels, ses);
+    HoppKung *player = HoppKung::getInstance(600, 110, 100, PLAYER_HEIGHT, levels, ses);
     ses.changeSFXVolume(30);
 
 
     //StoneTerrain *t0 = StoneTerrain::getInstance(-100, 1150, 1400, 50);
-    StoneTerrain *t1 = StoneTerrain::getInstance(380, 900, 200, 50);
     StoneTerrain *t2 = StoneTerrain::getInstance(600, 700, 200, 50);
     StoneTerrain *t3 = StoneTerrain::getInstance(900, 450, 200, 50);
     StoneTerrain *t4 = StoneTerrain::getInstance(600, 220, 200, 50);
-    StoneTerrain *t5 = StoneTerrain::getInstance(100, 380, 200, 50);
 
-    HeightLabel *heightLabel = HeightLabel::getInstance(50,50,50,30, player);
+    HeightLabel *heightLabel = HeightLabel::getInstance(50,50,200,30, player);
     StoneTerrain *t6 = MovingStoneTerrain::getInstance(900, 800, 200, 50);
 
-    StoneTerrain *t7 = StoneTerrain::getInstance(-100, 950, 320, 70);
-    StoneTerrain *t8 = StoneTerrain::getInstance(150, 950, 320, 70);
-    StoneTerrain *t9 = StoneTerrain::getInstance(400, 950, 320, 70);
-    StoneTerrain *t10 = StoneTerrain::getInstance(650, 950, 320, 70);
-    StoneTerrain *t100 = StoneTerrain::getInstance(900, 950, 320, 70);
+    StoneTerrain *g1 = StoneTerrain::getInstance(-100, 950, 320, 70);
+    StoneTerrain *g2 = StoneTerrain::getInstance(150, 950, 320, 70);
+    StoneTerrain *g3 = StoneTerrain::getInstance(400, 950, 320, 70);
+    StoneTerrain *g4 = StoneTerrain::getInstance(650, 950, 320, 70);
+    StoneTerrain *g5 = StoneTerrain::getInstance(900, 950, 320, 70);
 
     StoneTerrain *t11 = StoneTerrain::getInstance(333, 950, 200, 50);
-    StoneTerrain *t12 = StoneTerrain::getInstance(651, 860, 200, 50);
     StoneTerrain *t13 = StoneTerrain::getInstance(75, 725, 200, 50);
     StoneTerrain *t14 = StoneTerrain::getInstance(465, 577, 200, 50);
     StoneTerrain *t15 = StoneTerrain::getInstance(144, 363, 200, 50);
@@ -183,26 +180,21 @@ int main(int argc, char **argv) {
 
 
     levels[0].push_back(bg0);
-    levels[0].push_back(t7);
-    levels[0].push_back(t8);
-    levels[0].push_back(t9);
-    levels[0].push_back(t10);
-    levels[0].push_back(t100);
+    levels[0].push_back(g1);
+    levels[0].push_back(g2);
+    levels[0].push_back(g3);
+    levels[0].push_back(g4);
+    levels[0].push_back(g5);
 
-    //levels[0].push_back(t0);
-    levels[0].push_back(t1);
     levels[0].push_back(t2);
     levels[0].push_back(t3);
     levels[0].push_back(t4);
-    levels[0].push_back(t5);
     levels[0].push_back(t6);
     levels[0].push_back(player);
     levels[0].push_back(heightLabel);
 
     levels[1].push_back(bg1);
-
     levels[1].push_back(t11);
-    levels[1].push_back(t12);
     levels[1].push_back(t13);
     levels[1].push_back(t14);
     levels[1].push_back(t15);
