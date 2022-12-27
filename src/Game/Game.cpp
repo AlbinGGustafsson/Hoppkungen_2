@@ -16,6 +16,20 @@ using namespace constants;
 GameEngine ses;
 std::vector<std::vector<Sprite *>> levels;
 
+
+class FinishTerrain : public StoneTerrain{
+public:
+    FinishTerrain(int x, int y, int w, int h, Label* label) : StoneTerrain(x, y, w, h), gameEventLabel(label) {}
+
+    void aboveCollision(Player *p) override {
+        Terrain::aboveCollision(p);
+        gameEventLabel->setText("You won the game!");
+    }
+private:
+    Label* gameEventLabel;
+};
+
+
 class MovingStoneTerrain : public StoneTerrain {
 public:
 
@@ -152,13 +166,15 @@ int main(int argc, char **argv) {
     Background *bg3 = Background::getInstance(0, 0, 0, 0, "/levels/level3.png", "/levels/Aria.mp3", 128);
     Background *bg4 = Background::getInstance(0, 0, 0, 0, "/levels/level4.png", "/levels/Spacetime.mp3", 128);
 
+    Label* gameEventLabel = Label::getInstance(500, 50, 200, 30, "");
+
 
 //    FlyingDude *player = new FlyingDude(600, 110, 100, PLAYER_HEIGHT, levels, ses);
     HoppKung *player = HoppKung::getInstance(600, 110, 100, PLAYER_HEIGHT, levels, ses);
     ses.changeSFXVolume(30);
 
+    FinishTerrain* goal = new FinishTerrain(200, 900, 200, 50, gameEventLabel);
 
-    //StoneTerrain *t0 = StoneTerrain::getInstance(-100, 1150, 1400, 50);
     StoneTerrain *t2 = StoneTerrain::getInstance(600, 700, 200, 50);
     StoneTerrain *t3 = StoneTerrain::getInstance(900, 450, 200, 50);
     StoneTerrain *t4 = StoneTerrain::getInstance(600, 220, 200, 50);
@@ -186,12 +202,15 @@ int main(int argc, char **argv) {
     levels[0].push_back(g4);
     levels[0].push_back(g5);
 
+    levels[0].push_back(goal);
+
     levels[0].push_back(t2);
     levels[0].push_back(t3);
     levels[0].push_back(t4);
     levels[0].push_back(t6);
     levels[0].push_back(player);
     levels[0].push_back(heightLabel);
+    levels[0].push_back(gameEventLabel);
 
     levels[1].push_back(bg1);
     levels[1].push_back(t11);
@@ -201,18 +220,22 @@ int main(int argc, char **argv) {
     levels[1].push_back(t16);
     levels[1].push_back(player);
     levels[1].push_back(heightLabel);
+    levels[1].push_back(gameEventLabel);
 
     levels[2].push_back(bg2);
     levels[2].push_back(player);
     levels[2].push_back(heightLabel);
+    levels[2].push_back(gameEventLabel);
 
     levels[3].push_back(bg3);
     levels[3].push_back(player);
     levels[3].push_back(heightLabel);
+    levels[3].push_back(gameEventLabel);
 
     levels[4].push_back(bg4);
     levels[4].push_back(player);
     levels[4].push_back(heightLabel);
+    levels[4].push_back(gameEventLabel);
 
     ses.setLevel(levels[0]);
     ses.run();
