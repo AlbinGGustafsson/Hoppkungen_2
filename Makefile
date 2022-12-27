@@ -21,8 +21,6 @@ COMPILER_FLAGS = -std=c++17 -Wall -O0 -g
 SRC_FILES_GAME = $(wildcard $(SRC_DIR)/Game/*.cpp)
 SRC_FILES_ENGINE = $(wildcard $(SRC_DIR)/jEngine/*.cpp)
 
-SRC_FILE = $(SRC_DIR)/main.cpp
-
 # INKLUDERINGSFILER-var dina header-filer finns
 # Mac INCLUDE_PATHS!
 #INCLUDE_PATHS = -Iinclude -I/usr/local/include
