@@ -18,7 +18,6 @@ namespace jengine {
         StoneTerrain(int x, int y, int w, int h);
 
     private:
-
         SDL_Texture* terrainTx;
     };
 

@@ -58,7 +58,6 @@ namespace jengine{
         //current texture
         SDL_Texture* currentTx;
 
-
         //WalkingSound
         Mix_Chunk* walkingSFX;
         //jump charge sound

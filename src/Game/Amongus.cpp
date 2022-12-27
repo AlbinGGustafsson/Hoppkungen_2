@@ -23,19 +23,6 @@ using namespace constants;
 
     }
 
-    Amongus::~Amongus() {
-
-        Mix_FreeChunk(jumpChargeSFX);
-        Mix_FreeChunk(jumpSFX);
-        Mix_FreeChunk(walkingSFX);
-        SDL_DestroyTexture(airTx);
-        SDL_DestroyTexture(leftTx);
-        SDL_DestroyTexture(rightTx);
-        SDL_DestroyTexture(downTx);
-        SDL_DestroyTexture(idleTx);
-
-    }
-
     void Amongus::draw() const {
         SDL_RenderCopy(sys.getRenderer(), currentTx, nullptr, &getRect());
     }
@@ -160,4 +147,17 @@ using namespace constants;
     void Amongus::setCurrentTx(SDL_Texture *currentTx) {
         Amongus::currentTx = currentTx;
     }
+
+    Amongus::~Amongus() {
+        Mix_FreeChunk(jumpChargeSFX);
+        Mix_FreeChunk(jumpSFX);
+        Mix_FreeChunk(walkingSFX);
+        SDL_DestroyTexture(airTx);
+        SDL_DestroyTexture(leftTx);
+        SDL_DestroyTexture(rightTx);
+        SDL_DestroyTexture(downTx);
+        SDL_DestroyTexture(idleTx);
+        SDL_DestroyTexture(currentTx);
+    }
+
 }

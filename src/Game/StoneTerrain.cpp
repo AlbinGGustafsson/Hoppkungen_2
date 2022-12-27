@@ -25,7 +25,6 @@ namespace jengine {
 
     StoneTerrain::~StoneTerrain() {
         SDL_DestroyTexture(terrainTx);
-
     }
 
 } // jengine

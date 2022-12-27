@@ -26,10 +26,6 @@ namespace jengine {
         virtual void upUp();
         virtual void downUp();
 
-    private:
-
-
-
     };
 
 } // jengine

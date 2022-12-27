@@ -41,6 +41,7 @@ namespace jengine {
 
     Background::~Background(){
         SDL_DestroyTexture(bgTx);
+        Mix_FreeChunk(backgroundSFX);
     }
 
 }

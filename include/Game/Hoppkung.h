@@ -40,7 +40,6 @@ namespace jengine {
         std::vector<std::vector<Sprite *>>& levels;
         GameEngine& ses;
 
-
         static const int MAX_PLAYER_HORIZONTAL_CHARGE_VELOCITY = 10;
         static const int INITIAL_HORIZONTAL_CHARGE_VELOCITY = 2;
         static const int INITIAL_VERTICAL_CHARGE_VELOCITY = 10;
