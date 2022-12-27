@@ -21,8 +21,13 @@ namespace jengine {
         virtual void rightDown();
         virtual void leftUp();
         virtual void rightUp();
+        virtual void upDown();
+        virtual void downDown();
+        virtual void upUp();
+        virtual void downUp();
 
     private:
+
 
 
     };

@@ -90,23 +90,73 @@ private:
 };
 
 
+
+
+class FlyingDude : public HoppKung{
+
+public:
+
+    FlyingDude(int x, int y, int w, int h, vector<std::vector<Sprite *>> &lvls, GameEngine &session) : HoppKung(x, y, w, h, lvls,session) {}
+    void gravity() override {
+    }
+
+
+
+    void spaceDown() override {}
+
+    void spaceUp() override {}
+
+    void leftDown() override {
+        setXPosition(getXPosition() - 20);
+    }
+
+    void rightDown() override {
+        setXPosition(getXPosition() + 20);
+    }
+
+    void leftUp() override {}
+
+    void rightUp() override {}
+
+    void tick() override {
+        HoppKung::tick();
+    }
+    void upDown() override {
+        setYPosition(getYPosition()-20);
+    }
+    void downDown() override {
+        setYPosition(getYPosition()+20);
+    }
+
+
+
+protected:
+};
+
+
 int main(int argc, char **argv) {
 
+    std::vector<Sprite *> level0;
     std::vector<Sprite *> level1;
     std::vector<Sprite *> level2;
     std::vector<Sprite *> level3;
+    std::vector<Sprite *> level4;
 
+    levels.push_back(level0);
     levels.push_back(level1);
     levels.push_back(level2);
     levels.push_back(level3);
+    levels.push_back(level4);
+
+    Background *bg0 = Background::getInstance(0, 0, 0, 0, "/levels/level0.png", "/levels/EloysKompis.mp3", 10);
+    Background *bg1 = Background::getInstance(0, 0, 0, 0, "/levels/level1.png", "/levels/DkIsland.mp3", 128);
+    Background *bg2 = Background::getInstance(0, 0, 0, 0, "/levels/level2.png", "/levels/Aquatic.mp3", 128);
+    Background *bg3 = Background::getInstance(0, 0, 0, 0, "/levels/level3.png", "/levels/Aria.mp3", 128);
+    Background *bg4 = Background::getInstance(0, 0, 0, 0, "/levels/level4.png", "/levels/Spacetime.mp3", 128);
 
 
-    Background *bg = Background::getInstance(0, 0, 0, 0, "bg1.png", "bgMusic1.mp3", 10);
-    Background *bg2 = Background::getInstance(0, 0, 0, 0, "bg2.png", "bgMusic2.mp3", 128);
-
-    //HoppKungen *player = HoppKungen::getInstance(600, 110, 100, 100);
-    HoppKung *player = HoppKung::getInstance(600, 110, 100, 100, levels, ses);
-
+    FlyingDude *player = new FlyingDude(600, 110, 100, 100, levels, ses);
+    //HoppKung *player = HoppKung::getInstance(600, 110, 100, 100, levels, ses);
     ses.changeSFXVolume(30);
 
 
@@ -134,7 +184,7 @@ int main(int argc, char **argv) {
     StoneTerrain *t16 = StoneTerrain::getInstance(349, 129, 200, 50);
 
 
-    levels[0].push_back(bg);
+    levels[0].push_back(bg0);
     levels[0].push_back(t7);
     levels[0].push_back(t8);
     levels[0].push_back(t9);
@@ -151,7 +201,8 @@ int main(int argc, char **argv) {
     levels[0].push_back(player);
     levels[0].push_back(heightLabel);
 
-    levels[1].push_back(bg2);
+    levels[1].push_back(bg1);
+
     levels[1].push_back(t11);
     levels[1].push_back(t12);
     levels[1].push_back(t13);
@@ -161,10 +212,17 @@ int main(int argc, char **argv) {
     levels[1].push_back(player);
     levels[1].push_back(heightLabel);
 
-    levels[2].push_back(bg);
+    levels[2].push_back(bg2);
     levels[2].push_back(player);
     levels[2].push_back(heightLabel);
 
+    levels[3].push_back(bg3);
+    levels[3].push_back(player);
+    levels[3].push_back(heightLabel);
+
+    levels[4].push_back(bg4);
+    levels[4].push_back(player);
+    levels[4].push_back(heightLabel);
 
     ses.setLevel(levels[0]);
     ses.run();

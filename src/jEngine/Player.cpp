@@ -20,6 +20,12 @@ namespace jengine {
             case SDLK_RIGHT:
                 rightDown();
                 break;
+            case SDLK_UP:
+                upDown();
+                break;
+            case SDLK_DOWN:
+                downDown();
+                break;
         }
     }
 
@@ -33,6 +39,12 @@ namespace jengine {
                 break;
             case SDLK_RIGHT:
                 rightUp();
+                break;
+            case SDLK_UP:
+                upUp();
+                break;
+            case SDLK_DOWN:
+                downUp();
                 break;
         }
     }
@@ -79,12 +91,11 @@ namespace jengine {
 
 
     void Player::leftUp() {}
-
     void Player::rightUp() {}
-
-
-    Player::~Player() {
-
-    }
+    Player::~Player() {}
+    void Player::upDown() {}
+    void Player::downDown() {}
+    void Player::upUp() {}
+    void Player::downUp() {}
 
 } // jengine
