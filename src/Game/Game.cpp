@@ -181,7 +181,7 @@ int main(int argc, char **argv) {
     StoneTerrain *t5 = StoneTerrain::getInstance(100, 260, 50, 50);
 
     HeightLabel *heightLabel = HeightLabel::getInstance(50,50,200,30, player);
-    StoneTerrain *t6 = MovingStoneTerrain::getInstance(900, 800, 200, 50);
+    //StoneTerrain *t6 = MovingStoneTerrain::getInstance(900, 800, 200, 50);
 
     StoneTerrain *g1 = StoneTerrain::getInstance(-100, 950, 320, 70);
     StoneTerrain *g2 = StoneTerrain::getInstance(150, 950, 320, 70);
