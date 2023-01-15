@@ -112,10 +112,7 @@ class FlyingDude : public HoppKung {
 
 public:
 
-    FlyingDude(int x, int y, int w, int h, vector<std::vector<Sprite *>> &lvls, GameEngine &session) : HoppKung(x, y, w,
-                                                                                                                h, lvls,
-                                                                                                                session) {}
-
+    FlyingDude(int x, int y, int w, int h, vector<std::vector<Sprite *>> &lvls, GameEngine &session) : HoppKung(x, y, w,h, lvls,session) {}
     void gravity() override {}
 
     void spaceDown() override {}
@@ -168,6 +165,7 @@ int main(int argc, char **argv) {
     Background *bg2 = Background::getInstance(0, 0, 0, 0, "/levels/level2.png", "/levels/Aquatic.mp3", 128);
     Background *bg3 = Background::getInstance(0, 0, 0, 0, "/levels/level3.png", "/levels/Aria.mp3", 128);
     Background *bg4 = Background::getInstance(0, 0, 0, 0, "/levels/level4.png", "/levels/Spacetime.mp3", 128);
+
 
     Label *gameEventLabel = Label::getInstance(500, 50, 200, 30, "");
 
