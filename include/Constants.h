@@ -30,7 +30,7 @@ namespace constants
     static const int WINDOW_HEIGHT = 1000;
     static const int WINDOW_WIDTH = 1200;
 
-    static const int PLAYER_HEIGHT = 100;
+    static const int PLAYER_HEIGHT = 98;
 }
 
 #endif
