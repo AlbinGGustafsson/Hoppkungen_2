@@ -17,23 +17,24 @@ GameEngine ses;
 std::vector<std::vector<Sprite *>> levels;
 
 
-class FinishTerrain : public StoneTerrain{
+class FinishTerrain : public StoneTerrain {
 public:
-    FinishTerrain(int x, int y, int w, int h, Label* label) : StoneTerrain(x, y, w, h), gameEventLabel(label) {}
+    FinishTerrain(int x, int y, int w, int h, Label *label) : StoneTerrain(x, y, w, h), gameEventLabel(label) {}
 
     void aboveCollision(Player *p) override {
         Terrain::aboveCollision(p);
         gameEventLabel->setText("You won the game!");
     }
+
 private:
-    Label* gameEventLabel;
+    Label *gameEventLabel;
 };
 
 
 class MovingStoneTerrain : public StoneTerrain {
 public:
 
-    static MovingStoneTerrain* getInstance(int x, int y, int w, int h){
+    static MovingStoneTerrain *getInstance(int x, int y, int w, int h) {
         return new MovingStoneTerrain(x, y, w, h);
     }
 
@@ -76,6 +77,7 @@ public:
 
 protected:
     MovingStoneTerrain(int x, int y, int w, int h) : StoneTerrain(x, y, w, h) {}
+
 private:
 
     bool moveRight = true;
@@ -85,13 +87,14 @@ private:
 class HeightLabel : public Label {
 public:
 
-    static HeightLabel* getInstance(int x, int y, int w, int h, HoppKung* p){
+    static HeightLabel *getInstance(int x, int y, int w, int h, HoppKung *p) {
         return new HeightLabel(x, y, w, h, p);
     }
 
     void tick() {
 
-        int height = player->getCurrentLevel() * WINDOW_HEIGHT + (WINDOW_HEIGHT - player->getYPosition() - PLAYER_HEIGHT);
+        int height =
+                player->getCurrentLevel() * WINDOW_HEIGHT + (WINDOW_HEIGHT - player->getYPosition() - PLAYER_HEIGHT);
         setText("Level: " + to_string(player->getCurrentLevel()) + " Height: " + to_string(height));
     }
 
@@ -104,15 +107,16 @@ private:
 };
 
 
-
 //Klass för karaktär för testning av olika nivåer
-class FlyingDude : public HoppKung{
+class FlyingDude : public HoppKung {
 
 public:
 
-    FlyingDude(int x, int y, int w, int h, vector<std::vector<Sprite *>> &lvls, GameEngine &session) : HoppKung(x, y, w, h, lvls,session) {}
-    void gravity() override {
-    }
+    FlyingDude(int x, int y, int w, int h, vector<std::vector<Sprite *>> &lvls, GameEngine &session) : HoppKung(x, y, w,
+                                                                                                                h, lvls,
+                                                                                                                session) {}
+
+    void gravity() override {}
 
     void spaceDown() override {}
 
@@ -133,22 +137,21 @@ public:
     void tick() override {
         HoppKung::tick();
     }
+
     void upDown() override {
-        setYPosition(getYPosition()-20);
+        setYPosition(getYPosition() - 20);
     }
+
     void downDown() override {
-        setYPosition(getYPosition()+20);
+        setYPosition(getYPosition() + 20);
     }
 
-
-
-protected:
 };
 
 
 int main(int argc, char **argv) {
 
-   std::vector<Sprite *> level0;
+    std::vector<Sprite *> level0;
     std::vector<Sprite *> level1;
     std::vector<Sprite *> level2;
     std::vector<Sprite *> level3;
@@ -166,21 +169,20 @@ int main(int argc, char **argv) {
     Background *bg3 = Background::getInstance(0, 0, 0, 0, "/levels/level3.png", "/levels/Aria.mp3", 128);
     Background *bg4 = Background::getInstance(0, 0, 0, 0, "/levels/level4.png", "/levels/Spacetime.mp3", 128);
 
-    Label* gameEventLabel = Label::getInstance(500, 50, 200, 30, "");
-
+    Label *gameEventLabel = Label::getInstance(500, 50, 200, 30, "");
 
 
     HoppKung *player = HoppKung::getInstance(100, 850, 100, PLAYER_HEIGHT, levels, ses);
     ses.changeSFXVolume(30);
 
-    FinishTerrain* goal = new FinishTerrain(450, 150, 300, 50, gameEventLabel);
+    FinishTerrain *goal = new FinishTerrain(450, 150, 300, 50, gameEventLabel);
 
     StoneTerrain *t2 = StoneTerrain::getInstance(600, 660, 150, 50);
     StoneTerrain *t3 = StoneTerrain::getInstance(900, 450, 150, 50);
     StoneTerrain *t4 = StoneTerrain::getInstance(500, 260, 150, 50);
     StoneTerrain *t5 = StoneTerrain::getInstance(100, 260, 50, 50);
 
-    HeightLabel *heightLabel = HeightLabel::getInstance(50,50,200,30, player);
+    HeightLabel *heightLabel = HeightLabel::getInstance(50, 50, 200, 30, player);
     //StoneTerrain *t6 = MovingStoneTerrain::getInstance(900, 800, 200, 50);
 
     StoneTerrain *g1 = StoneTerrain::getInstance(-100, 950, 320, 70);
@@ -220,7 +222,7 @@ int main(int argc, char **argv) {
     // level 5
     StoneTerrain *L5_1 = StoneTerrain::getInstance(500, 950, 50, 50);
     StoneTerrain *L5_2 = StoneTerrain::getInstance(200, 700, 50, 50);
-    StoneTerrain *L5_3 = StoneTerrain::getInstance(400, 450 , 50, 50);
+    StoneTerrain *L5_3 = StoneTerrain::getInstance(400, 450, 50, 50);
     StoneTerrain *L5_4 = StoneTerrain::getInstance(650, 450, 50, 50);
     StoneTerrain *L5_5 = StoneTerrain::getInstance(800, 300, 50, 50);
 
@@ -247,14 +249,9 @@ int main(int argc, char **argv) {
     levels[1].push_back(t15);
     levels[1].push_back(t16);
     levels[1].push_back(t17);
-     levels[1].push_back(player);
+    levels[1].push_back(player);
     levels[1].push_back(heightLabel);
     levels[1].push_back(gameEventLabel);
-
-
-
-
-
 
 
     levels[2].push_back(bg2);
@@ -267,10 +264,6 @@ int main(int argc, char **argv) {
     levels[2].push_back(player);
     levels[2].push_back(heightLabel);
     levels[2].push_back(gameEventLabel);
-
-
-
-
 
 
     levels[3].push_back(bg3);
