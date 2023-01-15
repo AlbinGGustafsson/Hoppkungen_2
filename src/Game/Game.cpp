@@ -30,8 +30,6 @@ private:
 };
 
 
-
-
 class MovingStoneTerrain : public StoneTerrain {
 public:
 
@@ -107,7 +105,7 @@ private:
 
 
 
-
+//Klass för karaktär för testning av olika nivåer
 class FlyingDude : public HoppKung{
 
 public:
