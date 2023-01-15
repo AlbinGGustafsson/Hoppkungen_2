@@ -46,7 +46,7 @@ public:
             cout << "krock" << endl;
         }
     }
-
+// Exempelkod för trampolinebeteende
 //    void aboveCollision(Player *p) override {
 //        p->setYCollision(true);
 //        p->setYPosition(getRect().y + 10 - p->getRect().h);
