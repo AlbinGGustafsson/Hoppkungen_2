@@ -169,7 +169,7 @@ int main(int argc, char **argv) {
 
     Label *gameEventLabel = Label::getInstance(500, 50, 200, 30, "");
 
-
+    //FlyingDude *player = new FlyingDude(100, 850, 100, PLAYER_HEIGHT, levels, ses);
     HoppKung *player = HoppKung::getInstance(100, 850, 100, PLAYER_HEIGHT, levels, ses);
     ses.changeSFXVolume(30);
 
@@ -181,7 +181,6 @@ int main(int argc, char **argv) {
     StoneTerrain *t5 = StoneTerrain::getInstance(100, 260, 50, 50);
 
     HeightLabel *heightLabel = HeightLabel::getInstance(50, 50, 200, 30, player);
-    //StoneTerrain *t6 = MovingStoneTerrain::getInstance(900, 800, 200, 50);
 
     StoneTerrain *g1 = StoneTerrain::getInstance(-100, 950, 320, 70);
     StoneTerrain *g2 = StoneTerrain::getInstance(150, 950, 320, 70);
@@ -201,20 +200,14 @@ int main(int argc, char **argv) {
     StoneTerrain *L3_2 = StoneTerrain::getInstance(770, 700, 50, 50);
     StoneTerrain *L3_3 = MovingStoneTerrain::getInstance(600, 400, 250, 50);
     StoneTerrain *L3_4 = StoneTerrain::getInstance(50, 200, 100, 50);
-    StoneTerrain *L3_5 = StoneTerrain::getInstance(150, 15, 100, 50);
-    StoneTerrain *L3_6 = StoneTerrain::getInstance(150, 0, 100, 50);
 
 
     //level 4
-    StoneTerrain *L4_1 = MovingStoneTerrain::getInstance(600, 950, 250, 50);
+    StoneTerrain *L4_1 = StoneTerrain::getInstance(150, 950, 100, 50);
     StoneTerrain *L4_2 = MovingStoneTerrain::getInstance(1000, 750, 250, 50);
-    StoneTerrain *L4_3 = MovingStoneTerrain::getInstance(0, 550, 200, 50);
+    StoneTerrain *L4_3 = MovingStoneTerrain::getInstance(0, 550, 350, 50);
     StoneTerrain *L4_4 = StoneTerrain::getInstance(650, 400, 100, 50);
     StoneTerrain *L4_5 = StoneTerrain::getInstance(400, 250, 100, 50);
-    StoneTerrain *L4_6 = StoneTerrain::getInstance(415, 100, 100, 50);
-    StoneTerrain *L4_7 = StoneTerrain::getInstance(235, 250, 50, 50);
-    StoneTerrain *blockStone1 = StoneTerrain::getInstance(500, 0, 50, 50);
-    StoneTerrain *blockStone2 = StoneTerrain::getInstance(500, 50, 50, 50);
 
 
     // level 5
@@ -257,8 +250,6 @@ int main(int argc, char **argv) {
     levels[2].push_back(L3_2);
     levels[2].push_back(L3_3);
     levels[2].push_back(L3_4);
-    levels[2].push_back(L3_5);
-    levels[2].push_back(L3_6);
     levels[2].push_back(player);
     levels[2].push_back(heightLabel);
     levels[2].push_back(gameEventLabel);
@@ -270,10 +261,6 @@ int main(int argc, char **argv) {
     levels[3].push_back(L4_3);
     levels[3].push_back(L4_4);
     levels[3].push_back(L4_5);
-    levels[3].push_back(L4_6);
-    levels[3].push_back(L4_7);
-    levels[3].push_back(blockStone1);
-    levels[3].push_back(blockStone2);
     levels[3].push_back(player);
     levels[3].push_back(heightLabel);
     levels[3].push_back(gameEventLabel);
