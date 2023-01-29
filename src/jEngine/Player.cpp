@@ -14,10 +14,10 @@ namespace jengine {
             case SDLK_SPACE:
                 spaceDown();
                 break;
-            case SDLK_LEFT:
+            case SDLK_a:
                 leftDown();
                 break;
-            case SDLK_RIGHT:
+            case SDLK_d:
                 rightDown();
                 break;
             case SDLK_UP:
@@ -34,10 +34,10 @@ namespace jengine {
             case SDLK_SPACE:
                 spaceUp();
                 break;
-            case SDLK_LEFT:
+            case SDLK_a:
                 leftUp();
                 break;
-            case SDLK_RIGHT:
+            case SDLK_d:
                 rightUp();
                 break;
             case SDLK_UP:
