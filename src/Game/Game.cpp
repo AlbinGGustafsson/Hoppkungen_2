@@ -182,27 +182,31 @@ int main(int argc, char **argv) {
 
     HeightLabel *heightLabel = HeightLabel::getInstance(50, 50, 200, 30, player);
 
+    //level 0
     StoneTerrain *g1 = StoneTerrain::getInstance(-100, 950, 320, 70);
     StoneTerrain *g2 = StoneTerrain::getInstance(150, 950, 320, 70);
     StoneTerrain *g3 = StoneTerrain::getInstance(400, 950, 320, 70);
     StoneTerrain *g4 = StoneTerrain::getInstance(650, 950, 320, 70);
     StoneTerrain *g5 = StoneTerrain::getInstance(900, 950, 320, 70);
 
-    StoneTerrain *t11 = StoneTerrain::getInstance(333, 950, 225, 50);
+    //level 1
+    StoneTerrain *t11 = StoneTerrain::getInstance(333, 950, 350, 50);
     StoneTerrain *t13 = StoneTerrain::getInstance(75, 725, 100, 50);
     StoneTerrain *t14 = StoneTerrain::getInstance(465, 577, 200, 50);
     StoneTerrain *t15 = StoneTerrain::getInstance(144, 400, 200, 50);
-    StoneTerrain *t16 = StoneTerrain::getInstance(900, 363, 50, 50);
+    StoneTerrain *t16 = StoneTerrain::getInstance(900, 275, 50, 50);
     StoneTerrain *t17 = StoneTerrain::getInstance(800, 120, 50, 50);
 
-    //level 3
+    StoneTerrain *t18 = StoneTerrain::getInstance(50, 500, 100, 50);
+
+    //level 2
     StoneTerrain *L3_1 = StoneTerrain::getInstance(1100, 850, 225, 50);
     StoneTerrain *L3_2 = StoneTerrain::getInstance(770, 700, 50, 50);
     StoneTerrain *L3_3 = MovingStoneTerrain::getInstance(600, 400, 250, 50);
     StoneTerrain *L3_4 = StoneTerrain::getInstance(50, 200, 100, 50);
 
 
-    //level 4
+    //level 3
     StoneTerrain *L4_1 = StoneTerrain::getInstance(150, 950, 100, 50);
     StoneTerrain *L4_2 = MovingStoneTerrain::getInstance(1000, 750, 250, 50);
     StoneTerrain *L4_3 = MovingStoneTerrain::getInstance(0, 550, 350, 50);
@@ -210,7 +214,7 @@ int main(int argc, char **argv) {
     StoneTerrain *L4_5 = StoneTerrain::getInstance(400, 250, 100, 50);
 
 
-    // level 5
+    // level 4
     StoneTerrain *L5_1 = StoneTerrain::getInstance(500, 950, 50, 50);
     StoneTerrain *L5_2 = StoneTerrain::getInstance(200, 700, 50, 50);
     StoneTerrain *L5_3 = StoneTerrain::getInstance(400, 450, 50, 50);
@@ -240,6 +244,7 @@ int main(int argc, char **argv) {
     levels[1].push_back(t15);
     levels[1].push_back(t16);
     levels[1].push_back(t17);
+    levels[1].push_back(t18);
     levels[1].push_back(player);
     levels[1].push_back(heightLabel);
     levels[1].push_back(gameEventLabel);
